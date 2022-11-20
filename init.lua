@@ -1,19 +1,20 @@
------------------------------------------------------------
+------------------------------------------------------------------------------
 -- Initial environments for Neovim
 -- 初始階段
------------------------------------------------------------
+------------------------------------------------------------------------------
 -- Global Functions
 -- 為後續作業，需先載入之「共用功能（Global Functions）」。
 require("globals")
 
------------------------------------------------------------
+------------------------------------------------------------------------------
 -- Initial global constants
 -- 設定所需使用之「全域常數」。
------------------------------------------------------------
+------------------------------------------------------------------------------
 DEBUG = false
 -- DEBUG = true
+LSP_DEBUG = false
 
-MY_VIM = "nvim"
+MY_VIM = "mvim"
 OS_SYS = which_os()
 HOME = os.getenv("HOME")
 
@@ -54,13 +55,13 @@ SNIPPETS_PATH = { CONFIG_DIR .. "/my-snippets/snippets" }
 -- 初始時需有的 Neovim 基本設定
 require("essential")
 
------------------------------------------------------------
+------------------------------------------------------------------------------
 -- Initial RTP (Run Time Path) environment
 -- 設定 RTP ，要求 Neovim 啟動時的設定作業、執行作業，不採預設。
 -- 故 my-nvim 的設定檔，可置於目錄： ~/.config/my-nvim/ 運行；
 -- 執行作業（Run Time）所需使用之擴充套件（Plugins）與 LSP Servers
 -- 可置於目錄： ~/.local/share/my-nvim/
------------------------------------------------------------
+------------------------------------------------------------------------------
 local function setup_rtp()
 	-- 變更 stdpath('config') 預設的 rtp : ~/.config/nvim/
 	vim.opt.rtp:remove(join_paths(vim.fn.stdpath("data"), "site"))
@@ -124,23 +125,40 @@ if vim.g.vscode ~= nil then
 end
 
 ------------------------------------------------------------------------------
--- Install Plugin Manager & Plugins
--- 確保擴充套件管理器（packer.nvim）已完成安裝；以便擴充套件能正常安裝、更新。
--- (1) 當 packer.nvim 尚未安裝，可自動執行下載及安裝作業；
--- (2) 若 packer.nvim 已安裝，則執行擴充套件 (plugins) 的載入作業。
+-- Plugins
+-- 擴充套件處理
 ------------------------------------------------------------------------------
-require("load-plugins")
 
-------------------------------------------------------------------------------
--- configuration of plugins
--- 載入各擴充套件(plugins) 的設定
-------------------------------------------------------------------------------
-if DEBUG then
+local function load_plugins()
+	local debug_plugins = require("debug-plugins")
+	require("packer").startup(function(use)
+		debug_plugins.load(use)
+	end)
+end
+
+if LSP_DEBUG then
 	-- 正處「除錯」作業階段時，僅只載入除錯時所需的
 	-- 擴充套件(plugins) 設定。
-	require("lsp.lsp-debug")
-	_G.load_config()
-elseif INSTALLED then
+	local _, lsp_debug = pcall(require, "lsp.lsp-debug")
+	lsp_debug.startup()
+elseif DEBUG then
+	if not INSTALLED then
+		_G.install_packer(INSTALL_PATH)
+		load_plugins()
+		require("packer").sync()
+	else
+		load_plugins()
+		require("packer").sync()
+	end
+else
+	-- Install Plugin Manager & Plugins
+	-- 確保擴充套件管理器（packer.nvim）已完成安裝；以便擴充套件能正常安裝、更新。
+	-- (1) 當 packer.nvim 尚未安裝，可自動執行下載及安裝作業；
+	-- (2) 若 packer.nvim 已安裝，則執行擴充套件 (plugins) 的載入作業。
+	require("load-plugins")
+
+	-- configuration of plugins
+	-- 載入各擴充套件(plugins) 的設定
 	-- 非「除錯」作業；且 packer.nvim 已安裝時，
 	-- 則：開始載入各擴充套件（plugins）的設定；
 	-- 否則：略過擴充套件設定的載入。
@@ -163,7 +181,7 @@ require("settings")
 -- Color Themes
 -- Neovim 畫面的色彩設定
 -----------------------------------------------------------
-if not INSTALLED or DEBUG then
+if not INSTALLED then
 	print("<< Load default colorscheme >>")
 	-- Use solarized8_flat color scheme when first time start my-nvim
 	vim.cmd([[ colorscheme solarized8_flat ]])

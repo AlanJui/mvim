@@ -1,0 +1,7 @@
+#!/bin/sh
+export MY_NVIM="mvim"
+export MY_CONFIG_DIR="$HOME/.config/$MY_NVIM"
+export MY_RUNTIME_DIR="$HOME/.local/share/$MY_NVIM"
+
+echo 'Install nvim.packer and all plugins for Neovim'
+nvim --headless  -c "autocmd User PackerComplete quitall" -c "PackerSync"
