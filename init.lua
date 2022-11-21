@@ -10,8 +10,8 @@ require("globals")
 -- Initial global constants
 -- 設定所需使用之「全域常數」。
 ------------------------------------------------------------------------------
-DEBUG = false
--- DEBUG = true
+-- DEBUG = false
+DEBUG = true
 
 MY_VIM = "mvim"
 OS_SYS = which_os()
@@ -132,6 +132,7 @@ end
 if DEBUG then
 	local debug_plugins = require("debug-plugins")
 	require("config_debug_env").setup(PACKAGE_ROOT, INSTALL_PATH, COMPILE_PATH, debug_plugins)
+	require("setup-plugins")
 else
 	-- Install Plugin Manager & Plugins
 	-- 確保擴充套件管理器（packer.nvim）已完成安裝；以便擴充套件能正常安裝、更新。
@@ -212,4 +213,4 @@ local function blah()
 	print("====================================================================")
 end
 
-blah()
+-- blah()
