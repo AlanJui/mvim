@@ -61,17 +61,6 @@ function _G.print_table(table)
 	end
 end
 
-_G.install_packer = function(install_path)
-    vim.fn.system({
-        "git",
-        "clone",
-        "--depth",
-        "1",
-        "https://github.com/wbthomason/packer.nvim",
-        install_path,
-    })
-end
-    
 _G.load_config = function()
 	vim.lsp.set_log_level("trace")
 	if vim.fn.has("nvim-0.5.1") == 1 then
@@ -79,7 +68,7 @@ _G.load_config = function()
 	end
 	local nvim_lsp = require("lspconfig")
 	local on_attach = function(_, bufnr)
-		local function buf_set_keymap(...)
+		local function buf_set_keymap(...):w
 			vim.api.nvim_buf_set_keymap(bufnr, ...)
 		end
 		local function buf_set_option(...)

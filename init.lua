@@ -12,7 +12,6 @@ require("globals")
 ------------------------------------------------------------------------------
 DEBUG = false
 -- DEBUG = true
-LSP_DEBUG = false
 
 MY_VIM = "mvim"
 OS_SYS = which_os()
@@ -80,22 +79,20 @@ local function setup_rtp()
 	vim.cmd([[let &packpath = &runtimepath]])
 end
 
+local function print_rtp()
+    print("-----------------------------------------------------------")
+    -- P(vim.api.nvim_list_runtime_paths())
+    Print_table(vim.opt.runtimepath:get())
+end
+
 -- 若 MY_VIM 設定值，非 Neovim 預設之 `nvim` ；則需變更 Neovim RTP 。
 if MY_VIM ~= "nvim" then
-	if not DEBUG then
-		setup_rtp()
-	else
-		-- 在「除錯」作業時，顯示 setup_rtp() 執行前、後， rtp 的設定內容。
-		-- P(vim.api.nvim_list_runtime_paths())
-		Print_table(vim.opt.runtimepath:get())
-		print("-----------------------------------------------------------")
+    -- 在「除錯」作業時，顯示 setup_rtp() 執行前、後， rtp 的設定內容。
+	if DEBUG then print_rtp() end
 
-		setup_rtp()
+    setup_rtp()
 
-		Print_table(vim.opt.runtimepath:get())
-		print("-----------------------------------------------------------")
-		-- P(vim.api.nvim_list_runtime_paths())
-	end
+	if DEBUG then print_rtp() end
 end
 
 ------------------------------------------------------------------------------
@@ -128,28 +125,14 @@ end
 -- Plugins
 -- 擴充套件處理
 ------------------------------------------------------------------------------
-
-local function load_plugins()
+if DEBUG then
 	local debug_plugins = require("debug-plugins")
-	require("packer").startup(function(use)
-		debug_plugins.load(use)
-	end)
-end
-
-if LSP_DEBUG then
-	-- 正處「除錯」作業階段時，僅只載入除錯時所需的
-	-- 擴充套件(plugins) 設定。
-	local _, lsp_debug = pcall(require, "lsp.lsp-debug")
-	lsp_debug.startup()
-elseif DEBUG then
-	if not INSTALLED then
-		_G.install_packer(INSTALL_PATH)
-		load_plugins()
-		require("packer").sync()
-	else
-		load_plugins()
-		require("packer").sync()
-	end
+	require("config_debug_env").setup(
+        PACKAGE_ROOT,
+        INSTALL_PATH, 
+        COMPILE_PATH,
+        debug_plugins
+    )
 else
 	-- Install Plugin Manager & Plugins
 	-- 確保擴充套件管理器（packer.nvim）已完成安裝；以便擴充套件能正常安裝、更新。

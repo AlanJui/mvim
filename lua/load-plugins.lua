@@ -2,10 +2,6 @@
 -- Plugin Manager: install plugins
 -- $ nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 -----------------------------------------------------------------
-if DEBUG then
-	print("Loading plugins...")
-end
-
 local package_root = PACKAGE_ROOT
 local compile_path = COMPILE_PATH
 local install_path = INSTALL_PATH
@@ -41,13 +37,6 @@ vim.cmd([[
     autocmd BufWritePost plugins.lua source <afile> | PackerSync
   augroup end
 ]])
-
-if DEBUG then
-	print("PACKAGE_ROOT=", PACKAGE_ROOT)
-	print("INSTALL_PATH=", INSTALL_PATH)
-	print("COMPILE_PATH=", COMPILE_PATH)
-	print("packer_bootstrap=", packer_bootstrap)
-end
 
 -- 確認套件 packer.nvim 已被安裝，且已被載入 nvim
 local ok, packer = pcall(require, "packer")
