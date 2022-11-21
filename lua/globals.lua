@@ -19,7 +19,8 @@ end
 function _G.safe_require(module)
 	local ok, result = pcall(require, module)
 	if not ok then
-		vim.notify(string.format("Error requiring: %s", module), vim.log.levels.ERROR)
+		-- vim.notify(string.format("Plugin not installed: %s", module), vim.log.levels.ERROR)
+		vim.notify(string.format("Plugin not installed: %s", module), vim.log.levels.WARN)
 		return ok
 	end
 	return result
@@ -68,7 +69,7 @@ _G.load_config = function()
 	end
 	local nvim_lsp = require("lspconfig")
 	local on_attach = function(_, bufnr)
-		local function buf_set_keymap(...):w
+		local function buf_set_keymap(...)
 			vim.api.nvim_buf_set_keymap(bufnr, ...)
 		end
 		local function buf_set_option(...)

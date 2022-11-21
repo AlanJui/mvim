@@ -129,22 +129,28 @@ end
 -- Plugins
 -- 擴充套件處理
 ------------------------------------------------------------------------------
+-- (1)
+-- Install Plugin Manager & Plugins
+-- 確保擴充套件管理器（packer.nvim）已完成安裝；以便擴充套件能正常安裝、更新。
+--  ①  若擴充套件管理器：packer.nvim 尚未安裝，執行下載及安裝作業；
+--  ②  透過擴充套件管理器，執行擴充套件 (plugins) 之載入／安裝作業。
+------------------------------------------------------------------------------
+-- (2)
+-- Setup configuration of plugins
+-- 對已載入之各擴充套件，進行設定作業
+------------------------------------------------------------------------------
 if DEBUG then
+	-- (1)
 	local debug_plugins = require("debug-plugins")
 	require("config_debug_env").setup(PACKAGE_ROOT, INSTALL_PATH, COMPILE_PATH, debug_plugins)
+
+	-- (2)
 	require("setup-plugins")
 else
-	-- Install Plugin Manager & Plugins
-	-- 確保擴充套件管理器（packer.nvim）已完成安裝；以便擴充套件能正常安裝、更新。
-	-- (1) 當 packer.nvim 尚未安裝，可自動執行下載及安裝作業；
-	-- (2) 若 packer.nvim 已安裝，則執行擴充套件 (plugins) 的載入作業。
+	-- (1)
 	require("load-plugins")
 
-	-- configuration of plugins
-	-- 載入各擴充套件(plugins) 的設定
-	-- 非「除錯」作業；且 packer.nvim 已安裝時，
-	-- 則：開始載入各擴充套件（plugins）的設定；
-	-- 否則：略過擴充套件設定的載入。
+	-- (2)
 	require("setup-plugins")
 end
 
