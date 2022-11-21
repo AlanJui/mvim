@@ -80,19 +80,23 @@ local function setup_rtp()
 end
 
 local function print_rtp()
-    print("-----------------------------------------------------------")
-    -- P(vim.api.nvim_list_runtime_paths())
-    Print_table(vim.opt.runtimepath:get())
+	print("-----------------------------------------------------------")
+	-- P(vim.api.nvim_list_runtime_paths())
+	Print_table(vim.opt.runtimepath:get())
 end
 
 -- 若 MY_VIM 設定值，非 Neovim 預設之 `nvim` ；則需變更 Neovim RTP 。
 if MY_VIM ~= "nvim" then
-    -- 在「除錯」作業時，顯示 setup_rtp() 執行前、後， rtp 的設定內容。
-	if DEBUG then print_rtp() end
+	-- 在「除錯」作業時，顯示 setup_rtp() 執行前、後， rtp 的設定內容。
+	if DEBUG then
+		print_rtp()
+	end
 
-    setup_rtp()
+	setup_rtp()
 
-	if DEBUG then print_rtp() end
+	if DEBUG then
+		print_rtp()
+	end
 end
 
 ------------------------------------------------------------------------------
@@ -127,12 +131,7 @@ end
 ------------------------------------------------------------------------------
 if DEBUG then
 	local debug_plugins = require("debug-plugins")
-	require("config_debug_env").setup(
-        PACKAGE_ROOT,
-        INSTALL_PATH, 
-        COMPILE_PATH,
-        debug_plugins
-    )
+	require("config_debug_env").setup(PACKAGE_ROOT, INSTALL_PATH, COMPILE_PATH, debug_plugins)
 else
 	-- Install Plugin Manager & Plugins
 	-- 確保擴充套件管理器（packer.nvim）已完成安裝；以便擴充套件能正常安裝、更新。
@@ -199,6 +198,9 @@ end
 local function blah()
 	print("init.lua is loaded!")
 	print("====================================================================")
+	print("Neovim RTP(Run Time Path ...)")
+	-- P(vim.api.nvim_list_runtime_paths())
+	Print_table(vim.opt.runtimepath:get())
 	print(string.format("OS = %s", which_os()))
 	print(string.format("${workspaceFolder} = %s", vim.fn.getcwd()))
 	print(string.format("DEBUGPY = %s", DEBUGPY))
@@ -210,4 +212,4 @@ local function blah()
 	print("====================================================================")
 end
 
--- blah()
+blah()
