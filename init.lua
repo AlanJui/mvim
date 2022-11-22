@@ -120,13 +120,11 @@ if DEBUG then
 	-- (1)
 	local debug_plugins = require("debug-plugins")
 	require("config_debug_env").setup(debug_plugins)
-
 	-- (2)
 	require("setup-plugins")
 else
 	-- (1)
 	require("load-plugins")
-
 	-- (2)
 	require("setup-plugins")
 end
