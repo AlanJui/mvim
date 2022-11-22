@@ -23,11 +23,230 @@ local mappings = {
 		name = "Files",
 		e = { ":NvimTreeToggle<CR>", "File explorer" },
 		w = { ":w<CR>", "Save" },
-		c = { ":bdelete<CR>", "Close" },
-		C = { ":q!<CR>", "Quit withou save" },
-		x = { ":qa<CR>", "Exit Neovim" },
-		X = { ":qa!<CR>", "Exit Neovim without save" },
-		q = { ":q<CR>", "Quit" },
+		i = { "gg=G", "Formate indent of line" },
+		b = {
+			name = "Buffers",
+			l = { ":Telescope buffers<CR>", "List all buffers" },
+			p = { "gT", "Prev. buffer" },
+			n = { "gt", "Next buffer" },
+		},
+		c = {
+			name = "Close",
+			c = { ":bdelete<CR>", "Close" },
+			b = { '%bdelete|edit #|normal `"<CR>', "Close all but current" },
+		},
+		q = {
+			name = "Quit/Exit",
+			["!"] = { ":q!<CR>", "Quit withou save" },
+			q = { ":q<CR>", "Quit" },
+			x = { ":qa<CR>", "Exit Neovim" },
+			X = { ":qa!<CR>", "Exit Neovim without save" },
+		},
+		-- Search files
+		s = {
+			name = "Search",
+			a = { ":Telescope live_grep<CR>", "Live grep" },
+			b = { ":Telescope buffers theme=get_dropdown<CR>", "buffers" },
+			f = { ":Telescope find_files<CR>", "Find files" },
+			g = { ":Telescope git_files<CR>", "Git files" },
+			m = { ":Telescope marks<CR>", "Bookmarks" },
+			r = { ":Telescope oldfiles<CR>", "Recently open files" },
+			h = { ":Telescope help_tags<CR>", "Help Tags" },
+			p = { ":FloatermNew ranger<CR>", "Picture Viewer" },
+			w = { ":Telescope live_grep<CR>", "Find word" },
+			v = { ":FloatermNew vifm<CR>", "ViFm" },
+		},
+	},
+	-- Coding
+	c = {
+		name = "Coding",
+		a = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Do CodeAction" },
+		A = {
+			"<cmd>lua vim.lsp.buf.range_code_action()<CR>",
+			"Do Range CodeAction",
+		},
+		-- LSP diagnostics
+		d = {
+			name = "Diagnostics",
+			f = {
+				"<cmd>lua vim.diagnostic.open_float()<CR>",
+				"Open diagnostics floating",
+			},
+			p = {
+				"<cmd>lua vim.diagnostic.goto_prev()<CR>",
+				"Goto prev diagnostics",
+			},
+			n = {
+				"<cmd>lua vim.diagnostic.goto_next()<CR>",
+				"Goto next diagnostics",
+			},
+			l = { "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", "Set loclist" },
+			w = { ":Telescope diagnostics<CR>", "List diagnostics in worksapce" },
+			c = {
+				":Telescope diagnostics bufnr=0<CR>",
+				"List diagnostics current file",
+			},
+		},
+		f = { "<cmd>lua vim.lsp.buf.format()<CR>", "Formatting code" },
+		k = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Show HoverDocument" },
+		r = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename code" },
+		s = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Show signature help" },
+		g = {
+			name = "goto",
+			D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Go to declaration" },
+			d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Go to definition" },
+			t = {
+				"<cmd>lua vim.lsp.buf.type_definition()<CR>",
+				"Go to type definition",
+			},
+			i = {
+				"<cmd>lua vim.lsp.buf.implementation()<CR>",
+				"Go to Implementation",
+			},
+			r = { "<cmd>lua vim.lsp.buf.references()<CR>", "References" },
+		},
+		m = {
+			name = "misc",
+			t = {
+				":set filetype=htmldjango<CR>",
+				"set file type to django template",
+			},
+			T = { ":set filetype=html<CR>", "set file type to HTML" },
+		},
+		w = {
+			name = "workspace",
+			l = {
+				"<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",
+				"List workspace folders",
+			},
+			a = {
+				"<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>",
+				"Add folder to workspace",
+			},
+			r = {
+				"<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>",
+				"Remove folder from workspace",
+			},
+		},
+	},
+	-- Debug
+	d = {
+		name = "Debug",
+		b = {
+			"<cmd>lua require'dap'.toggle_breakpoint()<CR>",
+			"Toggle breakpoint",
+		},
+		B = {
+			"<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition<cmd> '))<CR>",
+			"Condition breakpoint",
+		},
+		c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
+		s = { "<cmd>lua require'dap'.continue()<cr>", "Start" },
+		R = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run to Cursor" },
+		i = { "<cmd>lua require'dap'.step_into()<CR>", "Step into" },
+		o = { "<cmd>lua require'dap'.step_over()<CR>", "Step over" },
+		O = { "<cmd>lua require'dap'.step_out()<CR>", "Step out" },
+		p = { "<cmd>lua require'dap'.pause.toggle()<cr>", "Pause" },
+		g = { "<cmd>lua require'dap'.session()<cr>", "Get Session" },
+		d = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
+		x = { "<cmd>lua require'dap'.terminate()<cr>", "Terminate" },
+		q = { "<cmd>lua require'dap'.close()<cr>", "Quit" },
+		Q = {
+			"<cmd>lua require'dap'.close()<CR><cmd>lua require'dap.repl'.close()<CR><cmd>lua require'dapui'.close()<CR><cmd>DapVirtualTextForceRefresh<CR>",
+			"Quit Nvim DAP",
+		},
+		-- Show contents in Variable when mouse pointer hover
+		h = { "<cmd>lua require'dap.ui.widgets'.hover()<cr>", "Hover Variables" },
+		e = { "<cmd>lua require'dapui'.eval()<cr>", "Evaluate" },
+		S = { "<cmd>lua require'dap.ui.widgets'.scopes()<cr>", "Scopes" },
+		u = { "<cmd>lua require'dapui'.toggle()<CR>", "Show/Hide Debug Sidebar" },
+		V = {
+			"<cmd>lua local widgets=require'dap.ui.widgets'; widgets.centered_float(widgets.scopes)<CR>",
+			"Use widgets to display the variables",
+		},
+		-- REPEL
+		r = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
+	},
+	-- Git
+	g = {
+		name = "Git",
+		g = { ":Neogit<CR>", "Neogit" },
+		a = { ":Git add .<CR>", "add all" },
+		b = { ":Git blame<CR>", "blame" },
+		B = { ":GBrowse<CR>", "Browse GitHub repo" },
+		c = { ":Git commit<CR>", "commit" },
+		d = {
+			name = "+Diff",
+			h = { ":Gdiffsplit<CR>", "diff split" },
+			v = { ":Gvdiffsplit<CR>", "diff vsplit" },
+			n = { ":Git diff<CR>", "Normal diff" },
+		},
+		l = { ":Git log<CR>", "List log with details" },
+		L = { ":Git log --oneline<CR>", "List log within one line" },
+		p = { ":Git push<CR>", "push" },
+		P = { ":Git pull<CR>", "pull" },
+		r = { ":GRemove<CR>", "remove" },
+		s = { ":Git<CR>", "status" },
+		S = { ":GitGutterSignsToggle<CR>", "toggle signs" },
+		T = {
+			':Git log --no-walk --tags --pretty="%h %d %s" --decorate=full<CR>',
+			"List all tags in log",
+		},
+		z = { ":FloatermNew lazygit<CR>", "Lazygit" },
+		-- Gist
+		G = {
+			name = "gist",
+			-- a    = {':Gist -a', 'post a gist anonymously' },
+			-- b    = {':Gist -b', 'post gist browser' },
+			d = { ":Gist -d<CR>", "delete gist" },
+			e = { ":Gist -e<CR>", "edit gist" },
+			l = { ":Gist -l<CR>", "list public gists" },
+			s = { ":Gist -ls<CR>", "list starred gists" },
+			m = { ":Gist -m<CR>", "post a gist with all open buffers" },
+			p = { ":Gist -p<CR>", "post public gist" },
+			P = { ":Gist -P<CR>", "post private gist" },
+		},
+	},
+	-- utilities
+	u = {
+		name = "Utilities",
+		t = {
+			name = "terminal",
+			d = { "TermExec python manage.py shell<CR>", "Django-admin Shell" },
+			p = { "TermExec python<CR>", "Python shell" },
+			n = { "TermExec node<CR>", "Node.js shell" },
+			v = {
+				"TermExec --wintype='vsplit' --position='right'<CR>",
+				"Debug Term...",
+			},
+		},
+		l = {
+			name = "LiveServer",
+			l = { ":Bracey<CR>", "start live server" },
+			L = { ":BraceyStop<CR>", "stop live server" },
+			r = { ":BraceyReload<CR>", "web page to be reloaded" },
+		},
+		m = {
+			name = "Markdown",
+			m = { ":MarkdownPreview<CR>", "start markdown preview" },
+			M = { ":MarkdownPreviewStop<CR>", "stop markdown preview" },
+		},
+		u = {
+			name = "UML",
+			v = { ":PlantumlOpen<CR>", "start PlantUML preview" },
+			o = {
+				":PlantumlSave docs/diagrams/out.png<CR>",
+				"export PlantUML diagram",
+			},
+		},
+		f = {
+			"TermExec --height=0.7 --width=0.9 --wintype=float vifm<CR>",
+			"ViFm",
+		},
+		r = {
+			"TermExec --height=0.7 --width=0.9 --wintype=float ranger<CR>",
+			"Ranger",
+		},
 	},
 	-- Window
 	w = {

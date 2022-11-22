@@ -24,12 +24,27 @@ require("plugins-rc.autopairs")
 require("plugins-rc.nvim-ts-autotag")
 -- vim.cmd([[runtime ./lua/plugins-rc/tagalong-vim.rc.vim]])
 
--- User Interface
+-- user Interface
 require("plugins-rc.nvim-web-devicons")
 require("plugins-rc/indent-blankline")
 require("plugins-rc.toggleterm")
--- require("plugins-rc.nvim-lightbulb")
+require("plugins-rc.nvim-lightbulb")
 
 -- versional control
 require("plugins-rc.gitsigns")
 require("plugins-rc.neogit")
+
+-- programming
+require("plugins-rc.toggleterm")
+require("plugins-rc.consolation-nvim")
+require("plugins-rc.yabs")
+
+-- debug
+require("dap-debug")
+require("plugins-rc.ultest")
+
+-- utilities
+vim.cmd([[runtime ./lua/plugins-rc/bracey.rc.vim]])
+vim.cmd([[runtime ./lua/plugins-rc/vim-instant-markdown.rc.vim]])
+vim.cmd([[runtime ./lua/plugins-rc/plantuml-previewer.rc.vim]])
+vim.cmd([[runtime ./lua/plugins-rc/vimtex.rc.vim]])

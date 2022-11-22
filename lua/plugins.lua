@@ -114,7 +114,6 @@ M.load = function(use)
 	-- tmux & split window navigation
 	use("christoomey/vim-tmux-navigator")
 	-- Fuzzy files finder
-	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- dependency for better sorting performance
 	use({
 		"nvim-telescope/telescope.nvim",
 		branch = "0.1.x",
@@ -123,6 +122,8 @@ M.load = function(use)
 			"nvim-telescope/telescope-live-grep-raw.nvim",
 		},
 	})
+	-- dependency for better sorting performance
+	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
 	-- Icons
 	use("nvim-tree/nvim-web-devicons")
 	-- File/Flolders explorer:nvim-tree
@@ -165,6 +166,42 @@ M.load = function(use)
 	use({ "windwp/nvim-autopairs" })
 	-- Use treesitter to autoclose and autorename html tag
 	use({ "windwp/nvim-ts-autotag" })
+	-----------------------------------------------------------
+	-- Coding Tools
+	-----------------------------------------------------------
+	-- Yet Another Build System
+	use({ "pianocomposer321/yabs.nvim", requires = { "nvim-lua/plenary.nvim" } })
+	-- terminal
+	use({ "pianocomposer321/consolation.nvim" })
+	use({ "akinsho/toggleterm.nvim", tag = "*" })
+	-----------------------------------------------------------
+	-- DAP
+	-----------------------------------------------------------
+	use({ "mfussenegger/nvim-dap" })
+	-- nvim-dap’s functionality for managing various debuggers.
+	-- use({ 'Pocco81/DAPInstall.nvim' })
+	-- Manage debuggers provided by nvim-dap.
+	use({ "Pocco81/dap-buddy.nvim" })
+	--
+	-- Language specific exensions
+	--
+	-- DAP adapter for Python
+	use({ "mfussenegger/nvim-dap-python" })
+	-- DAP adapter for the Neovim lua language
+	use({ "jbyuki/one-small-step-for-vimkind" })
+	--
+	-- DAP UI Extensions
+	--
+	-- Experimental UI for nvim-dap
+	use({ "rcarriga/nvim-dap-ui" })
+	-- Inlines the values for variables as virtual text using treesitter.
+	use({ "theHamsta/nvim-dap-virtual-text" })
+	-- Integration for nvim-dap with telescope.nvim
+	use({ "nvim-telescope/telescope-dap.nvim" })
+	-- UI integration for nvim-dat with fzf
+	use({ "ibhagwan/fzf-lua" })
+	-- nvim-cmp source for using DAP completions inside the REPL.
+	use({ "rcarriga/cmp-dap" })
 	-----------------------------------------------------------
 	-- Utility
 	-----------------------------------------------------------
