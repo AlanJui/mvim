@@ -1,31 +1,6 @@
 -----------------------------------------------------------
 -- Global Functions
 -----------------------------------------------------------
--- Get OS Name :lua print(vim.loop.os_uname().sysname)
-function _G.is_empty(str)
-	return str == nil or str == ""
-end
-
-function _G.join_paths(...)
-	local PATH_SEPERATOR = vim.loop.os_uname().version:match("Windows") and "\\" or "/"
-	local result = table.concat({ ... }, PATH_SEPERATOR)
-	return result
-end
-
-function _G.is_git_dir()
-	return os.execute("git rev-parse --is-inside-work-tree >> /dev/null 2>&1")
-end
-
-function _G.safe_require(module)
-	local ok, result = pcall(require, module)
-	if not ok then
-		-- vim.notify(string.format("Plugin not installed: %s", module), vim.log.levels.ERROR)
-		vim.notify(string.format("Plugin not installed: %s", module), vim.log.levels.WARN)
-		return ok
-	end
-	return result
-end
-
 function _G.which_os()
 	local system_name
 
@@ -42,14 +17,26 @@ function _G.which_os()
 	return system_name
 end
 
-function _G.print_rtp()
-	print(string.format("rtp = %s", vim.opt.rtp["_value"]))
+function _G.get_home_dir()
+	return os.getenv("HOME")
 end
 
-function Print_table(a_table)
-	for k, v in pairs(a_table) do
-		print("key = ", k, "    value = ", v)
+function _G.safe_require(module)
+	local ok, result = pcall(require, module)
+	if not ok then
+		-- vim.notify(string.format("Plugin not installed: %s", module), vim.log.levels.ERROR)
+		vim.notify(string.format("Plugin not installed: %s", module), vim.log.levels.WARN)
+		return ok
 	end
+	return result
+end
+
+function _G.is_empty(str)
+	return str == nil or str == ""
+end
+
+function _G.is_git_dir()
+	return os.execute("git rev-parse --is-inside-work-tree >> /dev/null 2>&1")
 end
 
 function P(cmd)
@@ -60,6 +47,10 @@ function _G.print_table(table)
 	for k, v in pairs(table) do
 		print("key = ", k, "    value = ", v)
 	end
+end
+
+function _G.get_rtp()
+	print(string.format("rtp = %s", vim.opt.rtp["_value"]))
 end
 
 _G.load_config = function()

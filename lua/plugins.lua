@@ -135,6 +135,16 @@ M.load = function(use)
 	-- Screen Navigation
 	use("folke/which-key.nvim")
 	-----------------------------------------------------------
+	-- Git Tools
+	-----------------------------------------------------------
+	-- Add git related info in the signs columns and popups
+	use({ "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } })
+	-- A work-in-progress Magit clone for Neovim that is geared toward the Vim philosophy.
+	use({
+		"TimUntersberger/neogit",
+		requires = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
+	})
+	-----------------------------------------------------------
 	-- Editting Tools
 	-----------------------------------------------------------
 	-- visualizes undo history and makes it easier to browse and switch between different undo branches
@@ -156,15 +166,49 @@ M.load = function(use)
 	-- Use treesitter to autoclose and autorename html tag
 	use({ "windwp/nvim-ts-autotag" })
 	-----------------------------------------------------------
-	-- Git Tools
+	-- Utility
 	-----------------------------------------------------------
-	-- Add git related info in the signs columns and popups
-	use({ "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } })
-	-- A work-in-progress Magit clone for Neovim that is geared toward the Vim philosophy.
+	-- Live server
+	use({ "turbio/bracey.vim", run = "npm install --prefix server" })
+	-- Markdown preview
+	use({ "instant-markdown/vim-instant-markdown" })
+	-- PlantUML
+	use({ "weirongxu/plantuml-previewer.vim" })
+	-- PlantUML syntax highlighting
+	use("aklt/plantuml-syntax")
+	-- Open URI with your favorite browser from your most favorite editor
+	use("tyru/open-browser.vim")
+	--
+	-- LaTeX
+	--
+	-- Vimtex
+	use("lervag/vimtex")
+	-- Texlab configuration
 	use({
-		"TimUntersberger/neogit",
-		requires = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
+		"f3fora/nvim-texlabconfig",
+		config = function()
+			require("texlabconfig").setup({
+				cache_active = true,
+				cache_filetypes = { "tex", "bib" },
+				cache_root = vim.fn.stdpath("cache"),
+				reverse_search_edit_cmd = "edit",
+				file_permission_mode = 438,
+			})
+		end,
+		ft = { "tex", "bib" },
+		cmd = { "TexlabInverseSearch" },
 	})
+	-- highlight your todo comments in different styles
+	-- use({
+	-- 	'folke/todo-comments.nvim',
+	-- 	requires = 'nvim-lua/plenary.nvim',
+	-- 	config = function()
+	-- 	    require('todo-comments').setup({
+	--              -- configuration comes here
+	--              -- or leave it empty to use the default setting
+	-- 	    })
+	-- 	end,
+	-- })
 end
 
 return M

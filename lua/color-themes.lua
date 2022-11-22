@@ -13,6 +13,8 @@ else
 	local tokyonight_status, _ = pcall(vim.cmd, "colorscheme tokyonight")
 	if not tokyonight_status then
 		print("Colorscheme of TokyoNight not found!") -- print error if colorscheme not installed
+
+		-- use default colorscheme
 		vim.cmd([[ colorscheme solarized8_flat ]])
 		return
 	else
