@@ -70,14 +70,9 @@ local lua_config = {
 local python_config = {
 	default_task = "run",
 	tasks = {
-		run = {
-			command = "python %", -- The command to run (% and other
-			-- wildcards will be automatically
-			-- expanded)
-			-- output = "consolation",
-			output = "terminal",
-		},
-		pylint = { command = "pylint %", output = "terminal" },
+		build = { command = "python %", output = "terminal" },
+		run = { command = "python %", output = "terminal" },
+		lint = { command = "pylint %", output = "terminal" },
 	},
 }
 

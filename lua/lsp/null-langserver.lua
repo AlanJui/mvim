@@ -73,15 +73,12 @@ local sources = {
 	-- A pure-Python Django/Jinja template indenter without dependencies.
 	formatting.djhtml,
 	formatting.djlint,
-
 	-- mypy is an optional static type checker for Python that aims to
 	-- combine the benefits fo dynamic (or "dock") typing and static typings.
 	-- diagnostics.mypy,
-
 	-- pydocstyle is a static analysis tool for checking compliance
 	-- with Python docstring conventions.
 	-- diagnostics.pydocstyle,
-
 	-- flake8 is a python tool that glues together pycodestyle,
 	-- pyflakes, mccabe, and third-party plugins to check the style
 	-- and quality of Python code.
