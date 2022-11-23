@@ -3,8 +3,9 @@ if not status then
 	return
 end
 
+--------------------------------------------------------------------
 -- Chage for upgrade to nvim 0.8: 2022/10/24 10:48
-toggle_term.setup()
+toggle_term.setup({ persist_size = false, shade_terminals = false })
 
 vim.cmd([[
 " set
@@ -30,3 +31,36 @@ end
 
 -- if you only want these mappings for toggle term use term://*toggleterm#* instead
 vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
+
+--------------------------------------------------------------------
+local Terminal = require("toggleterm.terminal").Terminal
+local vifm = Terminal:new({ cmd = "vifm", hidden = true })
+
+function _vifm_toggle()
+	vifm:toggle()
+end
+
+vim.api.nvim_set_keymap("n", "<localleader>v", "<cmd>lua _vifm_toggle()<CR>", { noremap = true, silent = true })
+
+--------------------------------------------------------------------
+local lazygit = Terminal:new({
+	cmd = "lazygit",
+	dir = "git_dir",
+	direction = "float",
+	float_opts = { border = "double" },
+	-- function to run on opening the terminal
+	on_open = function(term)
+		vim.cmd("startinsert!")
+		vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
+	end,
+	-- function to run on closing the terminal
+	on_close = function(term)
+		vim.cmd("startinsert!")
+	end,
+})
+
+function _lazygit_toggle()
+	lazygit:toggle()
+end
+
+vim.api.nvim_set_keymap("n", "<localleader>z", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })

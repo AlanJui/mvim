@@ -126,6 +126,8 @@ M.load = function(use)
 	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
 	-- Icons
 	use("nvim-tree/nvim-web-devicons")
+	-- File explorer: vifm
+	use("vifm/vifm.vim")
 	-- File/Flolders explorer:nvim-tree
 	use({
 		"kyazdani42/nvim-tree.lua",
@@ -173,7 +175,6 @@ M.load = function(use)
 	use({ "pianocomposer321/yabs.nvim", requires = { "nvim-lua/plenary.nvim" } })
 	-- terminal
 	use({ "pianocomposer321/consolation.nvim" })
-	use({ "akinsho/toggleterm.nvim", tag = "*" })
 	-----------------------------------------------------------
 	-- DAP
 	-----------------------------------------------------------

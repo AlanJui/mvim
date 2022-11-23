@@ -10,6 +10,7 @@ local mappings = {
 	-- Top Menu
 	[" "] = { ":Telescope find_files<CR>", "Find files" },
 	[","] = { ":Telescope buffers<CR>", "Show buffers" },
+	["."] = { "<cmd>lua _lazygit_toggle()<CR>", "Lazygit" },
 	[";"] = { ":ToggleTerm size=10<CR>", "Open Terminal" },
 	["v"] = {
 		":FloatermNew --height=0.7 --width=0.9 --wintype=float  vifm<CR>",
@@ -68,6 +69,11 @@ local mappings = {
 		-- LSP diagnostics
 		d = {
 			name = "Diagnostics",
+			l = { ":Telescope diagnostics<CR>", "List diagnostics in worksapce" },
+			c = {
+				":Telescope diagnostics bufnr=0<CR>",
+				"List diagnostics current file",
+			},
 			f = {
 				"<cmd>lua vim.diagnostic.open_float()<CR>",
 				"Open diagnostics floating",
@@ -79,12 +85,6 @@ local mappings = {
 			n = {
 				"<cmd>lua vim.diagnostic.goto_next()<CR>",
 				"Goto next diagnostics",
-			},
-			l = { "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", "Set loclist" },
-			w = { ":Telescope diagnostics<CR>", "List diagnostics in worksapce" },
-			c = {
-				":Telescope diagnostics bufnr=0<CR>",
-				"List diagnostics current file",
 			},
 		},
 		f = { "<cmd>lua vim.lsp.buf.format()<CR>", "Formatting code" },
@@ -246,6 +246,73 @@ local mappings = {
 		r = {
 			"TermExec --height=0.7 --width=0.9 --wintype=float ranger<CR>",
 			"Ranger",
+		},
+	},
+	-- Terminal
+	t = {
+		name = "Terminal",
+		c = { "<cmd>lua BuiltinTerminalWrapper:create()<CR>", "Create Terminal" },
+		o = { "<cmd>lua BuiltinTerminalWrapper:open()<CR>", "Open Terminal" },
+		C = { "<cmd>lua BuiltinTerminalWrapper:close()<CR>", "Close Terminal" },
+		x = { "<cmd>lua BuiltinTerminalWrapper:kill()<CR>", "Kill Terminal" },
+		-- t = { "<cmd>lua BuiltinTerminalWrapper:toggle()<CR>", "Toggle Terminal" },
+		h = {
+			":ToggleTerm size=15 direction=horizontal<CR>",
+			"Toggle horizontal terminal",
+		},
+		v = {
+			":ToggleTerm size=" .. (vim.o.columns * 0.5) .. " direction=vertical<CR>",
+			"Toggle vertical terminal",
+		},
+	},
+	-- Running code
+	r = {
+		name = "Run Django...",
+		k = { ":2TermExec cmd='npx kill-port 8000'<CR>", "Kill Port" },
+		g = { ":2TermExec cmd='git status'<CR>", "git status" },
+		r = { ":TermExec cmd='python manage.py runserver'<CR>", "Runserver" },
+		R = {
+			":TermExec cmd='python manage.py runserver --noreload'<CR>",
+			"Runserver --noreload",
+		},
+		S = { ":2TermExec cmd='python manage.py shell'<CR>", "Django Shell" },
+		s = {
+			":2TermExec cmd='python manage.py createsuperuser'<CR>",
+			"Create super user",
+		},
+		c = {
+			":2TermExec cmd='echo yes | python manage.py collectstatic'<CR>",
+			"Collect all static files",
+		},
+		m = {
+			":2TermExec cmd='python manage.py makemigrations'<CR>",
+			"Update DB schema",
+		},
+		M = { ":2TermExec cmd='python manage.py migrate'<CR>", "Migrate DB" },
+	},
+	-- yabs
+	y = {
+		name = "yabs",
+		T = {
+			name = "tasks",
+			t = { ":Telescope yabs tasks<CR>", "List yabs tasks" },
+			g = { ":Telescope yabs globals_tasks<CR>", "List all yabs tasks" },
+			l = {
+				":Telescope yabs current_language_tasks<CR>",
+				"List yabs tasks for language",
+			},
+		},
+		t = { ":Telescope yabs current_language_tasks<CR>", "Tasks for language" },
+		y = {
+			"<cmd>lua require('yabs'):run_default_task()<CR>",
+			"Run default task",
+		},
+		l = { "<cmd>lua require('yabs'):run_task('lint')<CR>", "Lint task" },
+		b = { "<cmd>lua require('yabs'):run_task('build')<CR>", "Build task" },
+		r = { "<cmd>lua require('yabs'):run_task('run')<CR>", "Run task" },
+		z = {
+			"<cmd>lua require('yabs').run_command('echo hello, world', 'quickfix', { open_on_run = 'always' })<CR>",
+			"Run command directly",
 		},
 	},
 	-- Window
