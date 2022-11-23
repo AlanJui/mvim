@@ -12,12 +12,13 @@ local mappings = {
 	[","] = { ":Telescope buffers<CR>", "Show buffers" },
 	["."] = { "<cmd>lua _lazygit_toggle()<CR>", "Lazygit" },
 	[";"] = { ":ToggleTerm size=10<CR>", "Open Terminal" },
-	["v"] = {
-		":FloatermNew --height=0.7 --width=0.9 --wintype=float  vifm<CR>",
-		"ViFm",
-	},
 	["/"] = { "gcc", "Comment out (Toggle)" },
 	["\\"] = { ":NvimTreeToggle<CR>", "File explorer" },
+	["e"] = { ":Vifm<CR>", "Files manager" },
+	["q"] = {
+		":FloatermNew --height=0.7 --width=0.9 --wintype=float  ranger<CR>",
+		"Quick viewer",
+	},
 	["z"] = { "UndotreeToggle<CR>", "Undo tree" },
 	-- Files
 	f = {
@@ -56,6 +57,31 @@ local mappings = {
 			p = { ":FloatermNew ranger<CR>", "Picture Viewer" },
 			w = { ":Telescope live_grep<CR>", "Find word" },
 			v = { ":FloatermNew vifm<CR>", "ViFm" },
+		},
+	},
+	-- Build (yabs)
+	b = {
+		name = "Build...",
+		T = {
+			name = "tasks",
+			t = { ":Telescope yabs tasks<CR>", "List yabs tasks" },
+			g = { ":Telescope yabs globals_tasks<CR>", "List all yabs tasks" },
+			l = {
+				":Telescope yabs current_language_tasks<CR>",
+				"List yabs tasks for language",
+			},
+		},
+		t = { ":Telescope yabs current_language_tasks<CR>", "Tasks for language" },
+		y = {
+			"<cmd>lua require('yabs'):run_default_task()<CR>",
+			"Run default task",
+		},
+		l = { "<cmd>lua require('yabs'):run_task('lint')<CR>", "Lint task" },
+		b = { "<cmd>lua require('yabs'):run_task('build')<CR>", "Build task" },
+		r = { "<cmd>lua require('yabs'):run_task('run')<CR>", "Run task" },
+		z = {
+			"<cmd>lua require('yabs').run_command('echo hello, world', 'quickfix', { open_on_run = 'always' })<CR>",
+			"Run command directly",
 		},
 	},
 	-- Coding
@@ -289,31 +315,6 @@ local mappings = {
 			"Update DB schema",
 		},
 		M = { ":2TermExec cmd='python manage.py migrate'<CR>", "Migrate DB" },
-	},
-	-- yabs
-	y = {
-		name = "yabs",
-		T = {
-			name = "tasks",
-			t = { ":Telescope yabs tasks<CR>", "List yabs tasks" },
-			g = { ":Telescope yabs globals_tasks<CR>", "List all yabs tasks" },
-			l = {
-				":Telescope yabs current_language_tasks<CR>",
-				"List yabs tasks for language",
-			},
-		},
-		t = { ":Telescope yabs current_language_tasks<CR>", "Tasks for language" },
-		y = {
-			"<cmd>lua require('yabs'):run_default_task()<CR>",
-			"Run default task",
-		},
-		l = { "<cmd>lua require('yabs'):run_task('lint')<CR>", "Lint task" },
-		b = { "<cmd>lua require('yabs'):run_task('build')<CR>", "Build task" },
-		r = { "<cmd>lua require('yabs'):run_task('run')<CR>", "Run task" },
-		z = {
-			"<cmd>lua require('yabs').run_command('echo hello, world', 'quickfix', { open_on_run = 'always' })<CR>",
-			"Run command directly",
-		},
 	},
 	-- Window
 	w = {

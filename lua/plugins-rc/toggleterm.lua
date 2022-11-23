@@ -34,15 +34,6 @@ vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
 
 --------------------------------------------------------------------
 local Terminal = require("toggleterm.terminal").Terminal
-local vifm = Terminal:new({ cmd = "vifm", hidden = true })
-
-function _vifm_toggle()
-	vifm:toggle()
-end
-
-vim.api.nvim_set_keymap("n", "<localleader>v", "<cmd>lua _vifm_toggle()<CR>", { noremap = true, silent = true })
-
---------------------------------------------------------------------
 local lazygit = Terminal:new({
 	cmd = "lazygit",
 	dir = "git_dir",
