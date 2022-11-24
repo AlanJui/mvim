@@ -20,6 +20,16 @@ local mappings = {
 		"Quick viewer",
 	},
 	["z"] = { "UndotreeToggle<CR>", "Undo tree" },
+	-- Actions
+	a = {
+		name = "Actions",
+		h = { ':let @/ = ""<CR>', "remove search highlight" },
+		t = { ":set filetype=htmldjango<CR>", "set file type to django template" },
+		T = { ":set filetype=html<CR>", "set file type to HTML" },
+		l = { ":set wrap!<CR>", "on/off line wrap" },
+		n = { ":set nonumber!<CR>", "on/off line-numbers" },
+		N = { ":set norelativenumber!<CR>", "on/off relative line-numbers" },
+	},
 	-- Files
 	f = {
 		name = "Files",

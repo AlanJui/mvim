@@ -39,8 +39,8 @@ require("plugins-rc.toggleterm")
 require("plugins-rc.consolation-nvim")
 require("plugins-rc.yabs")
 
--- debug
-require("dap-debug")
+-- debug & unit testing
+require("debugger")
 require("plugins-rc.ultest")
 
 -- utilities
