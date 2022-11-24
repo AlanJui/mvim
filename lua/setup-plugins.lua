@@ -41,7 +41,7 @@ require("plugins-rc.yabs")
 
 -- debug & unit testing
 require("debugger")
-require("plugins-rc.ultest")
+require("unit-test")
 
 -- utilities
 vim.cmd([[runtime ./lua/plugins-rc/bracey.rc.vim]])

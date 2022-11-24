@@ -175,6 +175,16 @@ M.load = function(use)
 	use({ "pianocomposer321/yabs.nvim", requires = { "nvim-lua/plenary.nvim" } })
 	-- terminal
 	use({ "pianocomposer321/consolation.nvim" })
+	-- A framework for interacting with tests within NeoVim.
+	use({
+		"nvim-neotest/neotest",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"antoinemadec/FixCursorHold.nvim",
+		},
+	})
+	use("nvim-neotest/neotest-python")
 	-----------------------------------------------------------
 	-- DAP
 	-----------------------------------------------------------
