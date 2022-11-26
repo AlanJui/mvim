@@ -51,6 +51,8 @@ M.load = function(use)
 	-- additional functionality for typescript server
 	-- (e.g. rename file & update imports)
 	use({ "jose-elias-alvarez/typescript.nvim" })
+	-- diagnostic
+	use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" })
 
 	-----------------------------------------------------------
 	-- Completion: for auto-completion/suggestion/snippets

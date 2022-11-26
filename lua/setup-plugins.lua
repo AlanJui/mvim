@@ -17,6 +17,7 @@ require("plugins-rc.telescope-nvim")
 require("plugins-rc.nvim-tree")
 
 -- editting tools
+require("plugins-rc.trouble-nvim")
 require("plugins-rc.undotree")
 require("plugins-rc.trim-nvim")
 require("plugins-rc.comment-nvim")

@@ -5,7 +5,19 @@ end
 
 --------------------------------------------------------------------
 -- Chage for upgrade to nvim 0.8: 2022/10/24 10:48
-toggle_term.setup({ persist_size = false, shade_terminals = false })
+toggle_term.setup({
+	-- size can be a number or function which is passed the current terminal
+	size = function(term)
+		if term.direction == "horizontal" then
+			return 15
+		elseif term.direction == "vertical" then
+			return vim.o.columns * 0.4
+		end
+	end,
+	direction = "horizontal",
+	persist_size = false,
+	shade_terminals = false,
+})
 
 vim.cmd([[
 " set

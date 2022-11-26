@@ -33,7 +33,7 @@ mason.setup({
 			server_pending = "➜",
 			server_uninstalled = "✗",
 		},
-	}
+	},
 })
 
 -----------------------------------------------------------
@@ -109,40 +109,42 @@ local keymap = vim.keymap -- for conciseness
 
 -- enable keybinds only for when lsp server available
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap=true, silent=true }
-keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+local opts = { noremap = true, silent = true }
+keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
+keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-    -- Mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local bufopts = { noremap=true, silent=true, buffer=bufnr }
-    keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-    keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-    keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-    keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-    keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-    keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-    keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-    keymap.set('n', '<space>wl', function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, bufopts)
-    keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-    keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-    keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-    keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+	-- Mappings.
+	-- See `:help vim.lsp.*` for documentation on any of the below functions
+	local bufopts = { noremap = true, silent = true, buffer = bufnr }
+	keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+	keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+	keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+	keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+	keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
+	keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
+	keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
+	keymap.set("n", "<space>wl", function()
+		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+	end, bufopts)
+	keymap.set("n", "<space>D", vim.lsp.buf.type_definition, bufopts)
+	keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts)
+	keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
+	keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+	keymap.set("n", "<space>f", function()
+		vim.lsp.buf.format({ async = true })
+	end, bufopts)
 
-    -- typescript specific keymaps (e.g. rename file and update imports)
-    if client.name == "tsserver" then
-        keymap.set("n", "<localleader>rf", ":TypescriptRenameFile<CR>") -- rename file and update imports
-        keymap.set("n", "<localleader>oi", ":TypescriptOrganizeImports<CR>") -- organize imports (not in youtube nvim video)
-        keymap.set("n", "<localleader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
-    end
+	-- typescript specific keymaps (e.g. rename file and update imports)
+	if client.name == "tsserver" then
+		keymap.set("n", "<localleader>rf", ":TypescriptRenameFile<CR>") -- rename file and update imports
+		keymap.set("n", "<localleader>oi", ":TypescriptOrganizeImports<CR>") -- organize imports (not in youtube nvim video)
+		keymap.set("n", "<localleader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
+	end
 end
 
 ---
@@ -150,38 +152,45 @@ end
 ---
 
 local sign = function(opts)
-  vim.fn.sign_define(opts.name, {
-    texthl = opts.name,
-    text = opts.text,
-    numhl = ''
-  })
+	vim.fn.sign_define(opts.name, { texthl = opts.name, text = opts.text, numhl = "" })
 end
 
-sign({name = 'DiagnosticSignError', text = '✘'})
-sign({name = 'DiagnosticSignWarn', text = ' '})
-sign({name = 'DiagnosticSignHint', text = ''})
-sign({name = 'DiagnosticSignInfo', text = ''})
+sign({ name = "DiagnosticSignError", text = "✘" })
+sign({ name = "DiagnosticSignWarn", text = " " })
+sign({ name = "DiagnosticSignHint", text = "" })
+sign({ name = "DiagnosticSignInfo", text = "" })
 
 vim.diagnostic.config({
-  virtual_text = false,
-  severity_sort = true,
-  float = {
-    border = 'rounded',
-    source = 'always',
-    header = '',
-    prefix = '',
-  },
+	virtual_text = false,
+	severity_sort = true,
+	float = { border = "rounded", source = "always", header = "", prefix = "" },
 })
 
-vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-  vim.lsp.handlers.hover,
-  {border = 'rounded'}
-)
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 
-vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-  vim.lsp.handlers.signature_help,
-  {border = 'rounded'}
-)
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+
+function PrintDiagnostics(opts, bufnr, line_nr, client_id)
+	bufnr = bufnr or 0
+	line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)
+	opts = opts or { ["lnum"] = line_nr }
+
+	local line_diagnostics = vim.diagnostic.get(bufnr, opts)
+	if vim.tbl_isempty(line_diagnostics) then
+		return
+	end
+
+	local diagnostic_message = ""
+	for i, diagnostic in ipairs(line_diagnostics) do
+		diagnostic_message = diagnostic_message .. string.format("%d: %s", i, diagnostic.message or "")
+		print(diagnostic_message)
+		if i ~= #line_diagnostics then
+			diagnostic_message = diagnostic_message .. "\n"
+		end
+	end
+	vim.api.nvim_echo({ { diagnostic_message, "Normal" } }, false, {})
+end
+vim.cmd([[ autocmd! CursorHold * lua PrintDiagnostics() ]])
 
 ---
 -- Enable autocompletion
@@ -189,10 +198,10 @@ vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
 local capabilities = cmp_nvim_lsp.default_capabilities()
 local lsp_defaults = lspconfig.util.default_config
 lsp_defaults.capabilities = vim.tbl_deep_extend(
-    'force',
-    lsp_defaults.capabilities,
-    -- Add additional capabliities supported by nvim-cmp
-    capabilities
+	"force",
+	lsp_defaults.capabilities,
+	-- Add additional capabliities supported by nvim-cmp
+	capabilities
 )
 
 --

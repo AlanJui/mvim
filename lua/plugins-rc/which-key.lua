@@ -105,8 +105,8 @@ local mappings = {
 		-- LSP diagnostics
 		d = {
 			name = "Diagnostics",
-			l = { ":Telescope diagnostics<CR>", "List diagnostics in worksapce" },
-			c = {
+			w = { ":Telescope diagnostics<CR>", "List diagnostics in worksapce" },
+			l = {
 				":Telescope diagnostics bufnr=0<CR>",
 				"List diagnostics current file",
 			},
@@ -303,28 +303,42 @@ local mappings = {
 	},
 	-- Running code
 	r = {
-		name = "Run Django...",
-		k = { ":2TermExec cmd='npx kill-port 8000'<CR>", "Kill Port" },
-		g = { ":2TermExec cmd='git status'<CR>", "git status" },
-		r = { ":TermExec cmd='python manage.py runserver'<CR>", "Runserver" },
-		R = {
-			":TermExec cmd='python manage.py runserver --noreload'<CR>",
-			"Runserver --noreload",
+		name = "Run...",
+		p = {
+			name = "Python",
+			p = {
+				":TermExec direction=horizontal cmd='python %'<CR>",
+				"Run current file",
+			},
+			l = {
+				":TermExec direction=horizontal cmd='pylint %'<CR>",
+				"Lint current file",
+			},
 		},
-		S = { ":2TermExec cmd='python manage.py shell'<CR>", "Django Shell" },
-		s = {
-			":2TermExec cmd='python manage.py createsuperuser'<CR>",
-			"Create super user",
+		d = {
+			name = "Django...",
+			k = { ":2TermExec cmd='npx kill-port 8000'<CR>", "Kill Port" },
+			g = { ":2TermExec cmd='git status'<CR>", "git status" },
+			r = { ":TermExec cmd='python manage.py runserver'<CR>", "Runserver" },
+			R = {
+				":TermExec cmd='python manage.py runserver --noreload'<CR>",
+				"Runserver --noreload",
+			},
+			S = { ":2TermExec cmd='python manage.py shell'<CR>", "Django Shell" },
+			s = {
+				":2TermExec cmd='python manage.py createsuperuser'<CR>",
+				"Create super user",
+			},
+			c = {
+				":2TermExec cmd='echo yes | python manage.py collectstatic'<CR>",
+				"Collect all static files",
+			},
+			m = {
+				":2TermExec cmd='python manage.py makemigrations'<CR>",
+				"Update DB schema",
+			},
+			M = { ":2TermExec cmd='python manage.py migrate'<CR>", "Migrate DB" },
 		},
-		c = {
-			":2TermExec cmd='echo yes | python manage.py collectstatic'<CR>",
-			"Collect all static files",
-		},
-		m = {
-			":2TermExec cmd='python manage.py makemigrations'<CR>",
-			"Update DB schema",
-		},
-		M = { ":2TermExec cmd='python manage.py migrate'<CR>", "Migrate DB" },
 		-- unit testing
 		u = {
 			name = "Unit Testing...",
@@ -345,6 +359,41 @@ local mappings = {
 			a = {
 				"require('neotest').run.attach()",
 				"Attach to the nearest test",
+			},
+		},
+	},
+	-- LSP
+	x = {
+		name = "Trouble",
+		x = { ":TroubleToggle<CR>", "On/Off TroubleToggle" },
+		r = { ":TroubleToggle lsp_references<CR>", "Display LSP References" },
+		q = { ":TroubleToggle quickfix<CR>", "List QuickFix" },
+		w = {
+			":TroubleToggle workspace_diagnostics<CR>",
+			"List diatnostics of workspace",
+		},
+		d = {
+			":TroubleToggle document_diagnostics<CR>",
+			"List diatnostics of current file",
+		},
+		l = { ":TroubleToggle loclist<CR>", "List loclist" },
+		j = {
+			name = "Jump",
+			f = {
+				'<cmd>lua require("trouble").first({skip_groups = true, jump = true})',
+				"Jump to the first item, skipping the groups",
+			},
+			p = {
+				'<cmd>lua require("trouble").previous({skip_groups = true, jump = true})',
+				"Jump to the previous item, skipping the groups",
+			},
+			n = {
+				'<cmd>lua require("trouble").next({skip_groups = true, jump = true})<CR>',
+				"Jump to the next item, skipping the groups",
+			},
+			l = {
+				'<cmd>lua require("trouble").last({skip_groups = true, jump = true})',
+				"Jump to the last item, skipping the groups",
 			},
 		},
 	},
@@ -378,11 +427,27 @@ local mappings = {
 	},
 }
 
-local opts = { prefix = "<leader>" }
+local opts = {
+	prefix = "<leader>",
+	key_labels = { ["<space"] = "SPC", ["<tab>"] = "TAB" },
+	icons = {
+		breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
+		separator = "➜", -- symbol used between a key and it's label
+		group = "+", -- symbol prepended to a group
+	},
+	window = {
+		border = "single", -- none, single, double, shadow
+		position = "bottom", -- bottom, top
+		margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
+		padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
+		winblend = 0,
+	},
+	ignore_missing = true, -- enable this to hide mappings for which you didn't specify a label
+	-- disable the WhichKey popup for certain buf types and file types.
+	-- Disabled by deafult for Telescope
+	disable = { buftypes = {}, filetypes = { "TelescopePrompt" } },
+}
+
+which_key.setup()
 
 which_key.register(mappings, opts)
-
-which_key.setup({
-	-- enable this to hide mappings for which you didn't specify a label
-	ignore_missing = true,
-})
