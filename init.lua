@@ -5,6 +5,7 @@
 MY_VIM = "mvim"
 DEBUG = false
 -- DEBUG = true
+vim.g.debug = DEBUG
 
 ------------------------------------------------------------------------------
 -- Setup Neovim Run Time Path

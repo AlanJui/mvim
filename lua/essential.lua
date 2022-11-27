@@ -23,8 +23,8 @@ if vim.fn.empty(vim.fn.glob(INSTALL_PATH)) == 0 then
 end
 
 LSP_SERVERS = {
-	"vimls",
 	"sumneko_lua",
+	"vimls",
 	"diagnosticls",
 	"pyright",
 	"emmet_ls",

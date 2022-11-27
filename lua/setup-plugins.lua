@@ -29,7 +29,7 @@ require("plugins-rc.nvim-ts-autotag")
 require("plugins-rc.nvim-web-devicons")
 require("plugins-rc/indent-blankline")
 require("plugins-rc.toggleterm")
-require("plugins-rc.nvim-lightbulb")
+-- require("plugins-rc.nvim-lightbulb")
 
 -- versional control
 require("plugins-rc.gitsigns")
