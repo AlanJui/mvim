@@ -139,6 +139,8 @@ M.load = function(use)
 	})
 	-- Screen Navigation
 	use("folke/which-key.nvim")
+	-- adds indentation guides to all lines (including empty lines).
+	use("lukas-reineke/indent-blankline.nvim")
 	-----------------------------------------------------------
 	-- Git Tools
 	-----------------------------------------------------------

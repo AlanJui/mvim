@@ -26,8 +26,8 @@ require("plugins-rc.nvim-ts-autotag")
 -- vim.cmd([[runtime ./lua/plugins-rc/tagalong-vim.rc.vim]])
 
 -- user Interface
+require("plugins-rc.indent-blankline-nvim")
 require("plugins-rc.nvim-web-devicons")
-require("plugins-rc/indent-blankline")
 require("plugins-rc.toggleterm")
 -- require("plugins-rc.nvim-lightbulb")
 
