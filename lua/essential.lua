@@ -13,6 +13,12 @@ PACKAGE_ROOT = RUNTIME_DIR .. "/site/pack"
 INSTALL_PATH = PACKAGE_ROOT .. "/packer/start/packer.nvim"
 COMPILE_PATH = CONFIG_DIR .. "/plugin/packer_compiled.lua"
 
+vim.g.ConfigDir = CONFIG_DIR
+vim.g.RuntimeDir = RUNTIME_DIR
+vim.g.PackageRoot = PACKAGE_ROOT
+vim.g.InstallPath = INSTALL_PATH
+vim.g.CompilePath = COMPILE_PATH
+
 vim.g.package_root = PACKAGE_ROOT
 vim.g.install_path = INSTALL_PATH
 vim.g.compile_path = COMPILE_PATH

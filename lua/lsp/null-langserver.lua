@@ -75,15 +75,14 @@ local sources = {
 	formatting.djlint,
 	-- mypy is an optional static type checker for Python that aims to
 	-- combine the benefits fo dynamic (or "dock") typing and static typings.
-	-- diagnostics.mypy,
+	diagnostics.mypy,
 	-- pydocstyle is a static analysis tool for checking compliance
 	-- with Python docstring conventions.
-	-- diagnostics.pydocstyle,
+	diagnostics.pydocstyle,
 	-- flake8 is a python tool that glues together pycodestyle,
 	-- pyflakes, mccabe, and third-party plugins to check the style
 	-- and quality of Python code.
 	diagnostics.flake8,
-
 	-- A tool that automatically formats Python code to conform to
 	-- the PEP 8 style guide.
 	-- Django HTML Template Linter and Formatter.
