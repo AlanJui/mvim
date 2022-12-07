@@ -75,7 +75,7 @@ local sources = {
 	formatting.djlint,
 	-- mypy is an optional static type checker for Python that aims to
 	-- combine the benefits fo dynamic (or "dock") typing and static typings.
-	diagnostics.mypy,
+	-- diagnostics.mypy,
 	-- pydocstyle is a static analysis tool for checking compliance
 	-- with Python docstring conventions.
 	diagnostics.pydocstyle,

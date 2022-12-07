@@ -95,7 +95,7 @@ M.load = function(use)
 	-- User Interface
 	-----------------------------------------------------------
 	-- Toggle Terminal
-	use({ "akinsho/toggleterm.nvim", tag = "*" })
+	use({ "akinsho/toggleterm.nvim", tag = "v2.*" })
 	-- Floater Terminal
 	use("voldikss/vim-floaterm")
 	-- Status Line

@@ -7,36 +7,6 @@ local luasnip_status, luasnip = pcall(require, "luasnip")
 if not luasnip_status then
 	return
 end
-
-------------------------------------------------------------
--- Add Snippets
-------------------------------------------------------------
-
--- Load your own custom vscode style snippets
--- require("luasnip.loaders.from_vscode").lazy_load({
--- 	paths = {
--- 		CONFIG_DIR .. "/my-snippets",
--- 		RUNTIME_DIR .. "/site/pack/packer/start/friendly-snippets",
--- 	},
--- })
-require("luasnip.loaders.from_vscode").lazy_load({
-	include = {
-		"global",
-		"python",
-		"django",
-		"html",
-		"css",
-		"htmldjango",
-		"djangohtml",
-		"javascript",
-		"markdown",
-	},
-})
--- extends filetypes supported by snippets
-luasnip.filetype_extend("vimwik", { "markdown" })
-luasnip.filetype_extend("html", { "htmldjango", "djangohtml" })
-luasnip.filetype_extend("python", { "django" })
-
 ------------------------------------------------------------
 -- Autocomplete
 ------------------------------------------------------------
@@ -118,6 +88,9 @@ cmp.setup({
 		{ name = "path" },
 		{ name = "luasnip", keyword_length = 1 },
 		{ name = "nvim_lsp", keyword_length = 1 },
+		{ name = "nvim_lua" },
+		{ name = "calc" },
+		{ name = "emoji" },
 	}, { { name = "buffer", keyword_length = 3 } }),
 	formatting = {
 		format = lspkind.cmp_format({
@@ -127,7 +100,21 @@ cmp.setup({
 			-- The function below will be called before any actual modifications from lspkind
 			-- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
 			before = function(entry, vim_item)
-				vim_item.menu = "[" .. string.upper(entry.source.name) .. "]"
+				-- vim_item.menu = "[" .. string.upper(entry.source.name) .. "]"
+				vim_item.menu = ({
+					nvim_lsp = "[LSP]",
+					luasnip = "[Snippet]",
+					nvim_lua = "[Nvim Lua]",
+					buffer = "[Buffer]",
+				})[entry.source.name]
+
+				vim_item.dup = ({
+					luasnip = 0,
+					nvim_lsp = 0,
+					nvim_lua = 0,
+					buffer = 0,
+				})[entry.source.name] or 0
+
 				return vim_item
 			end,
 		}),
@@ -152,3 +139,33 @@ cmp.setup.cmdline(":", {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
 })
+
+------------------------------------------------------------
+-- Add Snippets
+------------------------------------------------------------
+
+-- Load your own custom vscode style snippets
+-- require("luasnip.loaders.from_vscode").lazy_load({
+-- 	paths = {
+-- 		CONFIG_DIR .. "/my-snippets",
+-- 		RUNTIME_DIR .. "/site/pack/packer/start/friendly-snippets",
+-- 	},
+-- })
+require("luasnip.loaders.from_vscode").lazy_load({
+	path = { CONFIG_DIR .. "/my-snippets" },
+	include = {
+		"global",
+		"python",
+		"django",
+		"html",
+		"css",
+		"htmldjango",
+		"djangohtml",
+		"javascript",
+		"markdown",
+	},
+})
+-- extends filetypes supported by snippets
+luasnip.filetype_extend("vimwik", { "markdown" })
+luasnip.filetype_extend("html", { "htmldjango", "djangohtml" })
+luasnip.filetype_extend("python", { "django" })

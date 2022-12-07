@@ -2,11 +2,11 @@ local status, toggle_term = pcall(require, "toggleterm")
 if not status then
 	return
 end
-
 --------------------------------------------------------------------
 -- Chage for upgrade to nvim 0.8: 2022/10/24 10:48
 toggle_term.setup({
 	-- size can be a number or function which is passed the current terminal
+	-- size = 20,
 	size = function(term)
 		if term.direction == "horizontal" then
 			return 15
@@ -16,7 +16,7 @@ toggle_term.setup({
 	end,
 	direction = "horizontal",
 	persist_size = false,
-	shade_terminals = false,
+	shade_terminals = true,
 })
 
 vim.cmd([[
@@ -46,24 +46,10 @@ vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
 
 --------------------------------------------------------------------
 local Terminal = require("toggleterm.terminal").Terminal
-local lazygit = Terminal:new({
-	cmd = "lazygit",
-	dir = "git_dir",
-	direction = "float",
-	float_opts = { border = "double" },
-	-- function to run on opening the terminal
-	on_open = function(term)
-		vim.cmd("startinsert!")
-		vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
-	end,
-	-- function to run on closing the terminal
-	on_close = function(term)
-		vim.cmd("startinsert!")
-	end,
-})
+local lazygit = Terminal:new({ cmd = "lazygit", hidden = true })
 
 function _lazygit_toggle()
 	lazygit:toggle()
 end
 
-vim.api.nvim_set_keymap("n", "<localleader>z", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>z", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
