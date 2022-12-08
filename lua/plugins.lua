@@ -39,7 +39,10 @@ M.load = function(use)
 	-- automatically highlighting other uses of the current word under the cursor
 	use({ "RRethy/vim-illuminate" })
 	-- Support LSP CodeAction
-	use({ "kosayoda/nvim-lightbulb" })
+	use({
+		"kosayoda/nvim-lightbulb",
+		requires = "antoinemadec/FixCursorHold.nvim",
+	})
 	-- LSP plugin based on Neovim build-in LSP with highly a performant UI
 	use({
 		"glepnir/lspsaga.nvim",

@@ -13,7 +13,7 @@ end
 -- Configuration for Available options
 -- Showing defaults
 -- require'nvim-lightbulb'.update_lightbulb {
-nvim_light_bulb.update_lightbulb({
+nvim_light_bulb.setup({
 	-- LSP client names to ignore
 	-- Example: {"sumneko_lua", "null-ls"}
 	ignore = {},
@@ -56,25 +56,28 @@ nvim_light_bulb.update_lightbulb({
 		-- Text to provide when no actions are available
 		text_unavailable = "",
 	},
+	autocmd = {
+		enabled = true,
+		-- see :help autocmd-pattern
+		pattern = { "*" },
+		-- see :help autocmd-events
+		events = { "CursorHold", "CursorHoldI" },
+	},
 })
 
+-- Call require('nvim-lightbulb').update_lightbulb() whenever you want to show a lightbulb if a code action
+-- is available at the current cursor position. Example with an autocmd for all filetypes:
+vim.cmd([[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]])
+vim.cmd([[autocmd CursorHold,CursorHoldI * python require('nvim-lightbulb').update_lightbulb()]])
+
 -- Modify the lightbulb sign:
---   Fill text, texthl, linehl, and numhl according to your preferences
+-- Fill text, texthl, linehl, and numhl according to your preferences
 vim.fn.sign_define("LightBulbSign", { text = "", texthl = "", linehl = "", numhl = "" })
 
 -- Modify the lightbulb float window and virtual text colors
---   Fill ctermfg, ctermbg, guifg, guibg according to your preferences
--- VimScript
--- vim.cmd([[
--- augroup HighlightOverride
---   autocmd!
---   au ColorScheme * highlight LightBulbFloatWin ctermfg= ctermbg= guifg= guibg=
---   au ColorScheme * highlight LightBulbVirtualText ctermfg= ctermbg= guifg= guibg=
--- augroup END
--- ]])
--- Lua
+-- Fill ctermfg, ctermbg, guifg, guibg according to your preferences
 vim.api.nvim_command("highlight LightBulbFloatWin ctermfg=0 ctermbg=251 guifg=#242424 guibg=#cdcdcd")
 vim.api.nvim_command("highlight LightBulbVirtualText ctermfg=239 ctermbg=251 guifg=#666666 guibg=#cdcdcd")
 
 -- Status-line text usage
-require("nvim-lightbulb").get_status_text()
+-- require("nvim-lightbulb").get_status_text()
