@@ -145,26 +145,26 @@ cmp.setup.cmdline(":", {
 ------------------------------------------------------------
 
 -- Load your own custom vscode style snippets
--- require("luasnip.loaders.from_vscode").lazy_load({
--- 	paths = {
--- 		CONFIG_DIR .. "/my-snippets",
--- 		RUNTIME_DIR .. "/site/pack/packer/start/friendly-snippets",
--- 	},
--- })
 require("luasnip.loaders.from_vscode").lazy_load({
-	path = { CONFIG_DIR .. "/my-snippets" },
-	include = {
-		"global",
-		"python",
-		"django",
-		"html",
-		"css",
-		"htmldjango",
-		"djangohtml",
-		"javascript",
-		"markdown",
+	paths = {
+		CONFIG_DIR .. "/my-snippets",
+		RUNTIME_DIR .. "/site/pack/packer/start/friendly-snippets",
 	},
 })
+-- require("luasnip.loaders.from_vscode").lazy_load({
+-- 	path = { CONFIG_DIR .. "/my-snippets" },
+-- 	include = {
+-- 		"global",
+-- 		"python",
+-- 		"django",
+-- 		"html",
+-- 		"css",
+-- 		"htmldjango",
+-- 		"djangohtml",
+-- 		"javascript",
+-- 		"markdown",
+-- 	},
+-- })
 -- extends filetypes supported by snippets
 luasnip.filetype_extend("vimwik", { "markdown" })
 luasnip.filetype_extend("html", { "htmldjango", "djangohtml" })
