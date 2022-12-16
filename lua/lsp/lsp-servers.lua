@@ -237,7 +237,7 @@ require("mason-lspconfig").setup_handlers({
 			settings = { -- custom settings for lua
 				Lua = {
 					-- make the language server recognize "vim" global
-					diagnostics = { globals = { "vim" } },
+					diagnostics = { globals = { "vim", "hs" } },
 					workspace = {
 						-- make language server aware of runtime files
 						library = {
