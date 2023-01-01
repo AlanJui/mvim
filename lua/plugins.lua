@@ -226,11 +226,23 @@ M.load = function(use)
 	-- Live server
 	use({ "turbio/bracey.vim", run = "npm install --prefix server" })
 	-- Markdown preview
-	use({ "instant-markdown/vim-instant-markdown" })
+	-- use({ "instant-markdown/vim-instant-markdown" })
 	-- PlantUML
 	use({ "weirongxu/plantuml-previewer.vim" })
 	-- PlantUML syntax highlighting
 	use("aklt/plantuml-syntax")
+	-- Markdown support Mermaid
+	use({
+		"iamcco/markdown-preview.nvim",
+		run = function()
+			vim.fn["mkdp#util#install"]()
+		end,
+		ft = "markdown",
+		cmd = { "MarkdownPreview" },
+		requires = { "zhaozg/vim-diagram", "aklt/plantuml-syntax" },
+	})
+	-- provides support to mermaid syntax files (e.g. *.mmd, *.mermaid)
+	use("mracos/mermaid.vim")
 	-- Open URI with your favorite browser from your most favorite editor
 	use("tyru/open-browser.vim")
 	--

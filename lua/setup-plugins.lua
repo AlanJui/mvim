@@ -46,6 +46,7 @@ require("unit-test")
 
 -- utilities
 vim.cmd([[runtime ./lua/plugins-rc/bracey.rc.vim]])
-vim.cmd([[runtime ./lua/plugins-rc/vim-instant-markdown.rc.vim]])
+-- vim.cmd([[runtime ./lua/plugins-rc/vim-instant-markdown.rc.vim]])
+vim.cmd([[runtime ./lua/plugins-rc/markdown-preview-nvim.rc.vim]])
 vim.cmd([[runtime ./lua/plugins-rc/plantuml-previewer.rc.vim]])
 vim.cmd([[runtime ./lua/plugins-rc/vimtex.rc.vim]])
