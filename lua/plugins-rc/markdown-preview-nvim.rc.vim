@@ -1,6 +1,6 @@
 " set to 1, nvim will open the preview window after entering the markdown buffer
 " default: 0
-let g:mkdp_auto_start = 0
+let g:mkdp_auto_start = 1
 
 " set to 1, the nvim will auto close current preview window when change
 " from markdown buffer to another buffer
@@ -11,7 +11,7 @@ let g:mkdp_auto_close = 1
 " leave from insert mode, default 0 is auto refresh markdown as you edit or
 " move the cursor
 " default: 0
-let g:mkdp_refresh_slow = 0
+let g:mkdp_refresh_slow = 1
 
 " set to 1, the MarkdownPreview command can be use for all files,
 " by default it can be use in markdown file
@@ -83,7 +83,8 @@ let g:mkdp_markdown_css = ''
 let g:mkdp_highlight_css = ''
 
 " use a custom port to start server or empty for random
-let g:mkdp_port = ''
+" let g:mkdp_port = ''
+let g:mkdp_port = '8888'
 
 " preview page title
 " ${name} will be replace with the file name
@@ -91,9 +92,15 @@ let g:mkdp_page_title = '「${name}」'
 
 " recognized filetypes
 " these filetypes will have MarkdownPreview... commands
-let g:mkdp_filetypes = ['markdown']
+let g:mkdp_filetypes = ['markdown', 'mermaid']
 
 " set default theme (dark or light)
 " By default the theme is define according to the preferences of the system
 " let g:mkdp_theme = 'dark'
 let g:mkdp_theme = 'light'
+
+" function OpenMarkdownPreview (url)
+"   " execute "silent ! firefox --new-window " . a:url
+"   execute "silent ! chrome --new-window " . a:url
+" endfunction
+" let g:mkdp_browserfunc = 'OpenMarkdownPreview'

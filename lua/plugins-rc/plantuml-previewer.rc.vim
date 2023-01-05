@@ -44,4 +44,3 @@ let g:plantuml_previewer#save_format = 'png'
 
 "let g:plantuml_previewer#viewer_path = '~/.vim/plugged/plantuml-previewer.vim/viewer/dist'
 "let g:plantuml_previewer#viewer_path = '/Users/alanjui/bin/plantuml-previewer.vim/viewer/dist'
-

@@ -232,14 +232,20 @@ M.load = function(use)
 	-- PlantUML syntax highlighting
 	use("aklt/plantuml-syntax")
 	-- Markdown support Mermaid
+	-- use({
+	-- 	"iamcco/markdown-preview.nvim",
+	-- 	run = function()
+	-- 		vim.fn["mkdp#util#install"]()
+	-- 	end,
+	-- })
+	-- install without yarn or npm
 	use({
 		"iamcco/markdown-preview.nvim",
-		run = function()
-			vim.fn["mkdp#util#install"]()
+		run = "cd app && npm install",
+		setup = function()
+			vim.g.mkdp_filetypes = { "markdown" }
 		end,
-		ft = "markdown",
-		cmd = { "MarkdownPreview" },
-		requires = { "zhaozg/vim-diagram", "aklt/plantuml-syntax" },
+		ft = { "markdown" },
 	})
 	-- provides support to mermaid syntax files (e.g. *.mmd, *.mermaid)
 	use("mracos/mermaid.vim")
