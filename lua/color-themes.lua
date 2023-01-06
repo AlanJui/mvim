@@ -5,7 +5,16 @@
 -- in case it isn't installed
 local status, _ = pcall(vim.cmd, "colorscheme nightfly")
 
-if status then
+if os.getenv("TERM_PROGRAM") == "Apple_Terminal" then
+	vim.cmd([[
+    set notermguicolors
+    try
+      colorscheme OceanicNext
+    catch
+      colorscheme gruvbox
+    endtry
+  ]])
+elseif status then
 	vim.cmd([[ colorscheme nightfly ]])
 else
 	print("Colorscheme of Nightfly not found!") -- print error if colorscheme not installed
