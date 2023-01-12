@@ -39,3 +39,9 @@ opt.splitright = true -- split vertical window to the right
 opt.splitbelow = true -- split horizontal window to the bottom
 
 opt.iskeyword:append("-") -- consider string-string as whole word
+----------------------------------------------------------------------------------------
+-- 新增待驗證可用性
+----------------------------------------------------------------------------------------
+vim.opt.scrolloff = 8
+vim.opt.signcolumn = "yes"
+vim.opt.isfname:append("@-@")

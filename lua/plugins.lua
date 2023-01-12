@@ -94,6 +94,7 @@ M.load = function(use)
 			ts_update()
 		end,
 	})
+	use({ "nvim-treesitter/playground" })
 	-----------------------------------------------------------
 	-- User Interface
 	-----------------------------------------------------------
@@ -157,6 +158,8 @@ M.load = function(use)
 	-----------------------------------------------------------
 	-- Editting Tools
 	-----------------------------------------------------------
+	-- Quick switch between files
+	use({ "theprimeagen/harpoon" })
 	-- visualizes undo history and makes it easier to browse and switch between different undo branches
 	use({ "mbbill/undotree" })
 	-- surroundings: parentheses, brackets, quotes, XML tags, and more

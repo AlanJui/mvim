@@ -104,6 +104,10 @@ local mappings = {
 		},
 		-- LSP diagnostics
 		d = {
+			":Telescope diagnostics bufnr=0<CR>",
+			"List diagnostics current file",
+		},
+		D = {
 			name = "Diagnostics",
 			w = { ":Telescope diagnostics<CR>", "List diagnostics in worksapce" },
 			l = {

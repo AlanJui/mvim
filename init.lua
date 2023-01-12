@@ -107,13 +107,13 @@ end
 -- Plugins
 -- 擴充套件處理
 ------------------------------------------------------------------------------
--- (1)
+-- (1) 安裝擴充套件管理軟體及載入擴充套件
 -- Install Plugin Manager & Plugins
 -- 確保擴充套件管理器（packer.nvim）已完成安裝；以便擴充套件能正常安裝、更新。
 --  ①  若擴充套件管理器：packer.nvim 尚未安裝，執行下載及安裝作業；
 --  ②  透過擴充套件管理器，執行擴充套件 (plugins) 之載入／安裝作業。
 ------------------------------------------------------------------------------
--- (2)
+-- (2) 載入各擴充套件之設定
 -- Setup configuration of plugins
 -- 對已載入之各擴充套件，進行設定作業
 ------------------------------------------------------------------------------
@@ -122,12 +122,12 @@ if DEBUG then
 	local debug_plugins = require("debug-plugins")
 	require("config_debug_env").setup(debug_plugins)
 	-- (2)
-	require("setup-plugins")
+	require("plugins-rc")
 else
 	-- (1)
 	require("load-plugins")
 	-- (2)
-	require("setup-plugins")
+	require("plugins-rc")
 end
 
 ------------------------------------------------------------------------------
@@ -135,11 +135,11 @@ end
 -- 設定 Neovim 的 Options
 ------------------------------------------------------------------------------
 -- General options of Neovim
--- Neovim 於完成初始設定作業後，於執行時期，應有之設定
+-- Neovim 執行時期，應有之預設
 require("options")
 
 -- User's specific options of Neovim
--- 使用者有個人應用需求的特殊設定
+-- 使用者為個人需求，須變預設之設定
 require("settings")
 
 -----------------------------------------------------------
@@ -150,15 +150,9 @@ require("color-themes")
 
 -----------------------------------------------------------
 -- Key bindings
--- 操作時的按鍵設定
+-- 快捷鍵設定：操作時的按鍵設定
 -----------------------------------------------------------
--- Load Shortcut Key
--- 「快捷鍵」設定
 require("keymaps")
-
--- Load Which-key
--- 提供【選單】式的指令操作
-require("plugins-rc.which-key")
 
 -----------------------------------------------------------
 -- Experiments

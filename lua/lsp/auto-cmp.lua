@@ -14,7 +14,6 @@ vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 local select_opts = { behavior = cmp.SelectBehavior.Select }
 
-require("plugins-rc.lspkind")
 local lspkind = require("lspkind")
 
 local has_words_before = function()
