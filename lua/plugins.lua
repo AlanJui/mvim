@@ -148,6 +148,8 @@ M.load = function(use)
 	-----------------------------------------------------------
 	-- Git Tools
 	-----------------------------------------------------------
+	-- Git commad
+	use({ "tpope/vim-fugitive" })
 	-- Add git related info in the signs columns and popups
 	use({ "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } })
 	-- A work-in-progress Magit clone for Neovim that is geared toward the Vim philosophy.
@@ -155,6 +157,7 @@ M.load = function(use)
 		"TimUntersberger/neogit",
 		requires = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
 	})
+	use({ "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" })
 	-----------------------------------------------------------
 	-- Editting Tools
 	-----------------------------------------------------------
