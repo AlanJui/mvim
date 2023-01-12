@@ -72,7 +72,6 @@ cmp.setup({
 				fallback()
 			end
 		end, { "i", "s" }),
-
 		["<S-Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item()
@@ -150,20 +149,6 @@ require("luasnip.loaders.from_vscode").lazy_load({
 		RUNTIME_DIR .. "/site/pack/packer/start/friendly-snippets",
 	},
 })
--- require("luasnip.loaders.from_vscode").lazy_load({
--- 	path = { CONFIG_DIR .. "/my-snippets" },
--- 	include = {
--- 		"global",
--- 		"python",
--- 		"django",
--- 		"html",
--- 		"css",
--- 		"htmldjango",
--- 		"djangohtml",
--- 		"javascript",
--- 		"markdown",
--- 	},
--- })
 -- extends filetypes supported by snippets
 luasnip.filetype_extend("vimwik", { "markdown" })
 luasnip.filetype_extend("html", { "htmldjango", "djangohtml" })

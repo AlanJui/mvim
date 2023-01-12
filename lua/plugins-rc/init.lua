@@ -20,6 +20,7 @@ require("plugins-rc/telescope-nvim")
 require("plugins-rc/harpoon")
 
 -- editting tools
+require("plugins-rc/copilot")
 require("plugins-rc/trouble-nvim")
 require("plugins-rc/undotree")
 require("plugins-rc/trim-nvim")
