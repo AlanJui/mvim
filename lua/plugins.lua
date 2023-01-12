@@ -1,6 +1,63 @@
-local M = {}
+-----------------------------------------------------------------
+-- Plugin Manager: install plugins
+-- $ nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+-----------------------------------------------------------------
+local package_root = PACKAGE_ROOT
+local compile_path = COMPILE_PATH
+local install_path = INSTALL_PATH
 
-M.load = function(use)
+-----------------------------------------------------------------
+-- 確認 packer.nvim 套件已安裝，然後再「載入」及「更新」。
+-----------------------------------------------------------------
+
+-- auto install packer if not installed
+local ensure_packer = function()
+	local fn = vim.fn
+	if fn.empty(fn.glob(install_path)) > 0 then
+		fn.system({
+			"git",
+			"clone",
+			"--depth",
+			"1",
+			"https://github.com/wbthomason/packer.nvim",
+			install_path,
+		})
+		vim.cmd([[packadd packer.nvim]])
+		return true
+	end
+	return false
+end
+local packer_bootstrap = ensure_packer() -- true if packer was just installed
+
+-- autocommand that reloads neovim and installs/updates/removes plugins
+-- when file is saved
+vim.cmd([[
+augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+augroup end
+]])
+
+-----------------------------------------------------------------
+-- 確認擴充套件 packer.nvim 已安裝，以便執行「初始設定作業」。
+-----------------------------------------------------------------
+local ok, packer = pcall(require, "packer")
+if not ok then
+	return
+end
+
+packer.init({
+	package_root = package_root,
+	compile_path = compile_path,
+	plugin_package = "packer",
+	display = { open_fn = require("packer.util").float },
+	max_jobs = 10,
+})
+
+-----------------------------------------------------------------
+-- 透過 packer 執行「擴充套件載入作業」
+-----------------------------------------------------------------
+return packer.startup(function(use)
 	-----------------------------------------------------------
 	-- Essential plugins
 	-----------------------------------------------------------
@@ -16,6 +73,31 @@ M.load = function(use)
 	use("shaeinst/roshnivim-cs")
 	use("mhartington/oceanic-next")
 	use("folke/tokyonight.nvim")
+	-----------------------------------------------------------
+	-- Completion: for auto-completion/suggestion/snippets
+	-----------------------------------------------------------
+	-- A completion plugin for neovim coded in Lua.
+	use({
+		"hrsh7th/nvim-cmp",
+		requires = {
+			-- nvim-cmp source for neovim builtin LSP client
+			"hrsh7th/cmp-nvim-lsp", -- nvim-cmp source for nvim lua
+			"hrsh7th/cmp-nvim-lua", -- nvim-cmp source for buffer words
+			"hrsh7th/cmp-buffer", -- nvim-cmp source for filesystem paths
+			"hrsh7th/cmp-path", -- nvim-cmp source for math calculation
+			"hrsh7th/cmp-calc",
+			"hrsh7th/cmp-emoji",
+			"hrsh7th/cmp-cmdline",
+			-- LuaSnip completion source for nvim-cmp
+			"saadparwaiz1/cmp_luasnip",
+		},
+	})
+	-- Snippet Engine for Neovim written in Lua.
+	-- tag = "v<CurrentMajor>.*",
+	use({ "L3MON4D3/LuaSnip", tag = "v1.1.*" })
+	-- Snippets collection for a set of different programming languages for faster development
+	use("rafamadriz/friendly-snippets")
+	use({ "github/copilot.vim" })
 	-----------------------------------------------------------
 	-- LSP/LspInstaller: configurations for the Nvim LSP client
 	-----------------------------------------------------------
@@ -56,31 +138,6 @@ M.load = function(use)
 	use({ "jose-elias-alvarez/typescript.nvim" })
 	-- diagnostic
 	use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" })
-
-	-----------------------------------------------------------
-	-- Completion: for auto-completion/suggestion/snippets
-	-----------------------------------------------------------
-	-- A completion plugin for neovim coded in Lua.
-	use({
-		"hrsh7th/nvim-cmp",
-		requires = {
-			-- nvim-cmp source for neovim builtin LSP client
-			"hrsh7th/cmp-nvim-lsp", -- nvim-cmp source for nvim lua
-			"hrsh7th/cmp-nvim-lua", -- nvim-cmp source for buffer words
-			"hrsh7th/cmp-buffer", -- nvim-cmp source for filesystem paths
-			"hrsh7th/cmp-path", -- nvim-cmp source for math calculation
-			"hrsh7th/cmp-calc",
-			"hrsh7th/cmp-emoji",
-			"hrsh7th/cmp-cmdline",
-			-- LuaSnip completion source for nvim-cmp
-			"saadparwaiz1/cmp_luasnip",
-		},
-	})
-	-- Snippet Engine for Neovim written in Lua.
-	-- tag = "v<CurrentMajor>.*",
-	use({ "L3MON4D3/LuaSnip", tag = "v1.1.*" })
-	-- Snippets collection for a set of different programming languages for faster development
-	use("rafamadriz/friendly-snippets")
 	-----------------------------------------------------------
 	-- Treesitter: for better syntax
 	-----------------------------------------------------------
@@ -288,6 +345,9 @@ M.load = function(use)
 	-- 	    })
 	-- 	end,
 	-- })
-end
-
-return M
+	-- Automatically set up your configuration after cloning packer.nvim
+	-- Put this at the end after all plugins
+	if packer_bootstrap then
+		packer.sync()
+	end
+end)

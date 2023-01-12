@@ -125,7 +125,7 @@ if DEBUG then
 	require("plugins-rc")
 else
 	-- (1)
-	require("load-plugins")
+	require("plugins")
 	-- (2)
 	require("plugins-rc")
 end
