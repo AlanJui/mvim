@@ -81,7 +81,7 @@ local mappings = {
 				"List yabs tasks for language",
 			},
 		},
-		t = { ":Telescope yabs current_language_tasks<CR>", "Tasks for language" },
+		t = { ":Telescope yabs tasks<CR>", "Tasks for language" },
 		d = {
 			"<cmd>lua require('yabs'):run_default_task()<CR>",
 			"Run default task",

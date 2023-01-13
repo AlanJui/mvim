@@ -14,6 +14,7 @@ local lua_config = {
 		run = {
 			command = "lua %",
 			output = "terminal",
+			type = "lua",
 		},
 	},
 }

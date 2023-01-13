@@ -5,7 +5,8 @@
 MY_VIM = "mvim"
 DEBUG = false
 -- DEBUG = true
-vim.g.debug = DEBUG
+vim.g.my_vim = "mvim"
+vim.g.debug = false
 
 ------------------------------------------------------------------------------
 -- Setup Neovim Run Time Path
@@ -14,22 +15,7 @@ vim.g.debug = DEBUG
 -- 執行作業（Run Time）所需使用之擴充套件（Plugins）與 LSP Servers
 -- 可置於目錄： ~/.local/share/my-nvim/
 ------------------------------------------------------------------------------
-local rtp = require("setup_rtp")
-
--- 若 MY_VIM 設定值，非 Neovim 預設之 `nvim` ；則需變更 Neovim RTP 。
-if MY_VIM ~= "nvim" then
-	-- 在「除錯」作業時，顯示 setup_rtp() 執行前、後， rtp 的設定內容。
-	if DEBUG then
-		rtp.print_rtp()
-	end
-
-	-- change Neovm default RTP
-	rtp.setup_run_time_path(MY_VIM)
-
-	if DEBUG then
-		rtp.print_rtp()
-	end
-end
+-- Load luafile from command: nvim -u {vimrc} -c "luafile myRunTimePath.lua"
 
 -----------------------------------------------------------
 -- Global Functions
@@ -41,7 +27,6 @@ require("globals")
 -- Essential settings for Neovim
 -- 初始時需有的 Neovim 基本設定
 -----------------------------------------------------------
-vim.g.my_vim = MY_VIM
 require("essential")
 
 ------------------------------------------------------------------------------
