@@ -14,35 +14,20 @@ function M.setup(dap)
 				return "127.0.0.1"
 			end,
 			port = function()
-				local val = tonumber(vim.fn.input("Port: "))
+				local val = tonumber(vim.fn.input("Port: ", "54321"))
 				assert(val, "Please provide a port number")
 				return val
 			end,
 		},
 	}
+
 	dap.adapters.nlua = function(callback, config)
-		callback({ type = "server", host = config.host, port = config.port })
+		callback({
+			type = "server",
+			host = config.host,
+			port = config.port,
+		})
 	end
 end
 
 return M
------------------------------------------------------------------
--- function M.setup(dap)
--- 	dap.configurations.lua = {
--- 		{
--- 			type = "nlua",
--- 			request = "attach",
--- 			name = "Attach to running Neovim instance",
--- 		},
--- 	}
---
--- 	dap.adapters.nlua = function(callback, config)
--- 		callback({
--- 			type = "server",
--- 			host = config.host or "127.0.0.1",
--- 			port = config.port or 8086,
--- 		})
--- 	end
--- end
---
--- return M

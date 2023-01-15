@@ -19,7 +19,7 @@ local mappings = {
 		":FloatermNew --height=0.7 --width=0.9 --wintype=float  ranger<CR>",
 		"Quick viewer",
 	},
-	["z"] = { "UndotreeToggle<CR>", "Undo tree" },
+	["U"] = { "UndotreeToggle<CR>", "Undo tree" },
 	-- Actions
 	a = {
 		name = "Actions",
@@ -248,64 +248,6 @@ local mappings = {
 			P = { ":Gist -P<CR>", "post private gist" },
 		},
 	},
-	-- utilities
-	u = {
-		name = "Utilities",
-		t = {
-			name = "terminal",
-			d = { "TermExec python manage.py shell<CR>", "Django-admin Shell" },
-			p = { "TermExec python<CR>", "Python shell" },
-			n = { "TermExec node<CR>", "Node.js shell" },
-			v = {
-				"TermExec --wintype='vsplit' --position='right'<CR>",
-				"Debug Term...",
-			},
-		},
-		l = {
-			name = "LiveServer",
-			l = { ":Bracey<CR>", "start live server" },
-			L = { ":BraceyStop<CR>", "stop live server" },
-			r = { ":BraceyReload<CR>", "web page to be reloaded" },
-		},
-		m = {
-			name = "Markdown",
-			m = { ":MarkdownPreview<CR>", "start markdown preview" },
-			M = { ":MarkdownPreviewStop<CR>", "stop markdown preview" },
-		},
-		u = {
-			name = "UML",
-			v = { ":PlantumlOpen<CR>", "start PlantUML preview" },
-			o = {
-				":PlantumlSave docs/diagrams/out.png<CR>",
-				"export PlantUML diagram",
-			},
-		},
-		f = {
-			"TermExec --height=0.7 --width=0.9 --wintype=float vifm<CR>",
-			"ViFm",
-		},
-		r = {
-			"TermExec --height=0.7 --width=0.9 --wintype=float ranger<CR>",
-			"Ranger",
-		},
-	},
-	-- Terminal
-	t = {
-		name = "Terminal",
-		c = { "<cmd>lua BuiltinTerminalWrapper:create()<CR>", "Create Terminal" },
-		o = { "<cmd>lua BuiltinTerminalWrapper:open()<CR>", "Open Terminal" },
-		C = { "<cmd>lua BuiltinTerminalWrapper:close()<CR>", "Close Terminal" },
-		x = { "<cmd>lua BuiltinTerminalWrapper:kill()<CR>", "Kill Terminal" },
-		-- t = { "<cmd>lua BuiltinTerminalWrapper:toggle()<CR>", "Toggle Terminal" },
-		h = {
-			":ToggleTerm size=15 direction=horizontal<CR>",
-			"Toggle horizontal terminal",
-		},
-		v = {
-			":ToggleTerm size=" .. (vim.o.columns * 0.5) .. " direction=vertical<CR>",
-			"Toggle vertical terminal",
-		},
-	},
 	-- Running code
 	r = {
 		name = "Run...",
@@ -367,8 +309,94 @@ local mappings = {
 			},
 		},
 	},
-	-- LSP
-	x = {
+	-- utilities
+	u = {
+		name = "Utilities",
+		t = {
+			name = "terminal",
+			d = { "TermExec python manage.py shell<CR>", "Django-admin Shell" },
+			p = { "TermExec python<CR>", "Python shell" },
+			n = { "TermExec node<CR>", "Node.js shell" },
+			v = {
+				"TermExec --wintype='vsplit' --position='right'<CR>",
+				"Debug Term...",
+			},
+		},
+		l = {
+			name = "LiveServer",
+			l = { ":Bracey<CR>", "start live server" },
+			L = { ":BraceyStop<CR>", "stop live server" },
+			r = { ":BraceyReload<CR>", "web page to be reloaded" },
+		},
+		m = {
+			name = "Markdown",
+			m = { ":MarkdownPreview<CR>", "start markdown preview" },
+			M = { ":MarkdownPreviewStop<CR>", "stop markdown preview" },
+		},
+		u = {
+			name = "UML",
+			v = { ":PlantumlOpen<CR>", "start PlantUML preview" },
+			o = {
+				":PlantumlSave docs/diagrams/out.png<CR>",
+				"export PlantUML diagram",
+			},
+		},
+		f = {
+			"TermExec --height=0.7 --width=0.9 --wintype=float vifm<CR>",
+			"ViFm",
+		},
+		r = {
+			"TermExec --height=0.7 --width=0.9 --wintype=float ranger<CR>",
+			"Ranger",
+		},
+	},
+	-- Terminal
+	t = {
+		name = "Terminal",
+		c = { "<cmd>lua BuiltinTerminalWrapper:create()<CR>", "Create Terminal" },
+		o = { "<cmd>lua BuiltinTerminalWrapper:open()<CR>", "Open Terminal" },
+		C = { "<cmd>lua BuiltinTerminalWrapper:close()<CR>", "Close Terminal" },
+		x = { "<cmd>lua BuiltinTerminalWrapper:kill()<CR>", "Kill Terminal" },
+		-- t = { "<cmd>lua BuiltinTerminalWrapper:toggle()<CR>", "Toggle Terminal" },
+		h = {
+			":ToggleTerm size=15 direction=horizontal<CR>",
+			"Toggle horizontal terminal",
+		},
+		v = {
+			":ToggleTerm size=" .. (vim.o.columns * 0.5) .. " direction=vertical<CR>",
+			"Toggle vertical terminal",
+		},
+	},
+	-- Window
+	w = {
+		name = "Windows",
+		["-"] = { ":split<CR>", "Horiz. window" },
+		["_"] = { ":vsplit<CR>", "Vert. window" },
+		["|"] = { ":vsplit<CR>", "Vert. window" },
+		i = { ":tabnew %<CR>", "Zoom-in" },
+		o = { ":tabclose<CR>", "Zoom-out" },
+		c = { ":close<CR>", "Close window" },
+		k = { "<C-w>k", "Up window" },
+		j = { "<C-w>j", "Down window" },
+		h = { "<C-w>h", "Left window" },
+		l = { "<C-w>l", "Right window" },
+		["<Up>"] = { "<cmd>wincmd -<CR>", "Shrink down" },
+		["<Down>"] = { "<cmd>wincmd +<CR>", "Grow up" },
+		["<Left>"] = { "<cmd>wincmd <<CR>", "Shrink narrowed" },
+		["<Right>"] = { "<cmd>wincmd ><CR>", "Grow widder" },
+		w = { ':exe "resize" . (winwidth(0) * 3/2)<CR>', "Increase weight" },
+		W = { ':exe "resize" . (winwidth(0) * 2/3)<CR>', "Increase weight" },
+		v = {
+			':exe "vertical resize" . (winheight(0) * 3/2)<CR>',
+			"Increase height",
+		},
+		V = {
+			':exe "vertical resize" . (winheight(0) * 2/3)<CR>',
+			"Increase height",
+		},
+	},
+	-- Trouble List
+	z = {
 		name = "Trouble",
 		x = { ":TroubleToggle<CR>", "On/Off TroubleToggle" },
 		r = { ":TroubleToggle lsp_references<CR>", "Display LSP References" },
@@ -400,34 +428,6 @@ local mappings = {
 				'<cmd>lua require("trouble").last({skip_groups = true, jump = true})',
 				"Jump to the last item, skipping the groups",
 			},
-		},
-	},
-	-- Window
-	w = {
-		name = "Windows",
-		["-"] = { ":split<CR>", "Horiz. window" },
-		["_"] = { ":vsplit<CR>", "Vert. window" },
-		["|"] = { ":vsplit<CR>", "Vert. window" },
-		i = { ":tabnew %<CR>", "Zoom-in" },
-		o = { ":tabclose<CR>", "Zoom-out" },
-		c = { ":close<CR>", "Close window" },
-		k = { "<C-w>k", "Up window" },
-		j = { "<C-w>j", "Down window" },
-		h = { "<C-w>h", "Left window" },
-		l = { "<C-w>l", "Right window" },
-		["<Up>"] = { "<cmd>wincmd -<CR>", "Shrink down" },
-		["<Down>"] = { "<cmd>wincmd +<CR>", "Grow up" },
-		["<Left>"] = { "<cmd>wincmd <<CR>", "Shrink narrowed" },
-		["<Right>"] = { "<cmd>wincmd ><CR>", "Grow widder" },
-		w = { ':exe "resize" . (winwidth(0) * 3/2)<CR>', "Increase weight" },
-		W = { ':exe "resize" . (winwidth(0) * 2/3)<CR>', "Increase weight" },
-		v = {
-			':exe "vertical resize" . (winheight(0) * 3/2)<CR>',
-			"Increase height",
-		},
-		V = {
-			':exe "vertical resize" . (winheight(0) * 2/3)<CR>',
-			"Increase height",
 		},
 	},
 }
