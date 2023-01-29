@@ -32,14 +32,24 @@ local on_attach = function(current_client, bufnr)
 end
 
 -- register any number of sources simultaneously
-local formatting = null_ls.builtins.formatting -- to setup formatters
-local diagnostics = null_ls.builtins.diagnostics -- to setup linters
+-- local formatting = null_ls.builtins.formatting -- to setup formatters
+-- local diagnostics = null_ls.builtins.diagnostics -- to setup linters
 
 local sources = {
 	-- Built-in sources have access to a special method, with(),
 	-- which modifies a subset of the source's default options.
+	null_ls.builtins.completion.spell,
 	null_ls.builtins.code_actions.gitsigns,
-	formatting.prettier.with({
+	---------------------------------------------------------------
+	-- Web
+	---------------------------------------------------------------
+	-- Tags completion source.
+	null_ls.builtins.completion.tags,
+	-- Find and fix problems in your JavaScript code.
+	null_ls.builtins.diagnostics.eslint,
+	null_ls.builtins.code_actions.eslint,
+	-- null_ls.builtins.formatting.eslint,
+	null_ls.builtins.formatting.prettier.with({
 		filetypes = {
 			"html",
 			"css",
@@ -55,62 +65,53 @@ local sources = {
 			"handlebars",
 		},
 		extra_filetypes = {},
-	}), -- Snippet engine for Neovim
-	null_ls.builtins.completion.luasnip,
+	}),
 	---------------------------------------------------------------
 	-- Python/Django
 	---------------------------------------------------------------
 	-- Pylint is a Python static code analysis tool which looks for
 	-- programming errors, helps enforcing a coding standard, sniffs
 	-- for code smells and offers simple refactoring suggestions.
-	diagnostics.pylint.with({
+	null_ls.builtins.diagnostics.pylint.with({
 		diagnostics_postprocess = function(diagnostic)
 			diagnostic.code = diagnostic.message_id
 		end,
 	}),
-	formatting.isort,
-	formatting.autopep8, -- formatting.black,
+	null_ls.builtins.formatting.isort,
+	null_ls.builtins.formatting.autopep8, -- formatting.black,
 	-- A pure-Python Django/Jinja template indenter without dependencies.
-	formatting.djhtml,
-	formatting.djlint,
+	null_ls.builtins.formatting.djhtml,
+	null_ls.builtins.formatting.djlint,
 	-- mypy is an optional static type checker for Python that aims to
 	-- combine the benefits fo dynamic (or "dock") typing and static typings.
-	-- diagnostics.mypy,
+	null_ls.builtins.diagnostics.mypy,
 	-- pydocstyle is a static analysis tool for checking compliance
 	-- with Python docstring conventions.
-	diagnostics.pydocstyle,
+	null_ls.builtins.diagnostics.pydocstyle,
 	-- flake8 is a python tool that glues together pycodestyle,
 	-- pyflakes, mccabe, and third-party plugins to check the style
 	-- and quality of Python code.
-	diagnostics.flake8,
+	null_ls.builtins.diagnostics.flake8,
 	-- A tool that automatically formats Python code to conform to
 	-- the PEP 8 style guide.
 	-- Django HTML Template Linter and Formatter.
-	diagnostics.djlint,
+	null_ls.builtins.diagnostics.djlint,
 	---------------------------------------------------------------
 	-- Lua
 	---------------------------------------------------------------
 	-- Snippet engine for Neovim, written in Lua.
-	-- null_ls.builtins.completion.luasnip,
+	null_ls.builtins.completion.luasnip,
 	-- for linting and static analysis of Lua code
-	-- diagnostics.luacheck,
+	-- null_ls.builtins.diagnostics.luacheck,
 	-- Reformats your Lua source code.
-	-- formatting.lua_format,
-	---------------------------------------------------------------
-	-- Web
-	---------------------------------------------------------------
-	-- Tags completion source.
-	formatting.stylua,
-	diagnostics.eslint, -- null_ls.builtins.completion.tags,
-	-- null_ls.builtins.completion.spell,
-	-- Find and fix problems in your JavaScript code.
-	formatting.eslint,
+	-- null_ls.builtins.formatting.lua_format,
+	null_ls.builtins.formatting.stylua,
 	---------------------------------------------------------------
 	-- Markdown style and syntax checker
-	diagnostics.markdownlint,
+	null_ls.builtins.diagnostics.markdownlint,
 	-- A Node.js style checker and lint tool for Markdown/CommonMark
 	-- files.
-	formatting.markdownlint,
+	null_ls.builtins.formatting.markdownlint,
 	-- A linter for YAML files
 	-- diagnostics.zsh,
 }

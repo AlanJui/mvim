@@ -6,8 +6,8 @@
 require("plugins-rc/nvim-treesitter")
 
 -- lsp
-require("lsp")
-require("plugins-rc/lspkind")
+require("lsp/init")
+-- require("plugins-rc/lspkind")
 
 -- status line
 require("plugins-rc/lualine-material")
@@ -20,7 +20,6 @@ require("plugins-rc/telescope-nvim")
 require("plugins-rc/harpoon")
 
 -- editting tools
-require("plugins-rc/copilot")
 require("plugins-rc/trouble-nvim")
 require("plugins-rc/undotree")
 require("plugins-rc/trim-nvim")

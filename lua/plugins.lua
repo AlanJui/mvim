@@ -2,10 +2,10 @@
 -- Plugin Manager: install plugins
 -- $ nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 -----------------------------------------------------------------
-local package_root = PACKAGE_ROOT
-local compile_path = COMPILE_PATH
-local install_path = INSTALL_PATH
-
+local nvim_config = GetConfig()
+local package_root = nvim_config["package_root"]
+local compile_path = nvim_config["compile_path"]
+local install_path = nvim_config["install_path"]
 -----------------------------------------------------------------
 -- 確認 packer.nvim 套件已安裝，然後再「載入」及「更新」。
 -----------------------------------------------------------------
@@ -33,8 +33,8 @@ local packer_bootstrap = ensure_packer() -- true if packer was just installed
 -- when file is saved
 vim.cmd([[
 augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+autocmd!
+autocmd BufWritePost plugins.lua source <afile> | PackerSync
 augroup end
 ]])
 
@@ -73,6 +73,7 @@ return packer.startup(function(use)
 	use("shaeinst/roshnivim-cs")
 	use("mhartington/oceanic-next")
 	use("folke/tokyonight.nvim")
+	use("catppuccin/nvim")
 	-----------------------------------------------------------
 	-- Completion: for auto-completion/suggestion/snippets
 	-----------------------------------------------------------
@@ -96,7 +97,7 @@ return packer.startup(function(use)
 	-- tag = "v<CurrentMajor>.*",
 	use({ "L3MON4D3/LuaSnip", tag = "v1.1.*" })
 	-- Snippets collection for a set of different programming languages for faster development
-	use("rafamadriz/friendly-snippets")
+	use({ "rafamadriz/friendly-snippets" })
 	use({ "github/copilot.vim" })
 	-----------------------------------------------------------
 	-- LSP/LspInstaller: configurations for the Nvim LSP client
@@ -110,6 +111,15 @@ return packer.startup(function(use)
 	-- server client
 	use({ "neovim/nvim-lspconfig" })
 	-- formatting & linting
+	-- stylua cod
+	use({
+		"ckipp01/stylua-nvim",
+		config = function()
+			require("stylua-nvim").setup({
+				config_file = "/Users/alanjui/stylua.toml",
+			})
+		end,
+	})
 	use({
 		"jose-elias-alvarez/null-ls.nvim",
 		requires = {
@@ -129,7 +139,6 @@ return packer.startup(function(use)
 	use({
 		"glepnir/lspsaga.nvim",
 		branch = "main",
-		requires = { "neovim/nvim-lspconfig" },
 	})
 	-- vscode-like pictograms for neovim lsp completion items Topics
 	use({ "onsails/lspkind-nvim" })

@@ -2,11 +2,8 @@
 -- Initial environments for Neovim
 -- 初始階段
 ------------------------------------------------------------------------------
-MY_VIM = "mvim"
 DEBUG = false
 -- DEBUG = true
-vim.g.my_vim = "mvim"
-vim.g.debug = false
 
 ------------------------------------------------------------------------------
 -- Setup Neovim Run Time Path
@@ -109,27 +106,53 @@ require("keymaps")
 -- 實驗用的臨時設定
 -----------------------------------------------------------
 
+-----------------------------------------------------------
+-- code folding
+-----------------------------------------------------------
+vim.cmd([[
+set foldmethod=indent
+set foldnestmax=10
+set nofoldenable
+set foldlevel=5
+]])
 -- For folding
-vim.opt.foldmethod = "expr"
+-- vim.opt.foldmethod = "expr"
 -- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 -- Say hello
 local function blah()
-	print("Neovim: " .. MY_VIM)
+	local nvim_config = GetConfig()
+	local MY_NVIM = nvim_config["nvim"]
+	print("Neovim: " .. MY_NVIM)
 	print("init.lua is loaded!")
 	print("====================================================================")
 	print("Neovim RTP(Run Time Path ...)")
 	-- P(vim.api.nvim_list_runtime_paths())
-	print_table(vim.opt.runtimepath:get())
-	print(string.format("OS = %s", which_os()))
+	-- PrintTable(vim.opt.runtimepath:get())
+	PrintTableWithIndent(vim.opt.runtimepath:get(), 4)
+	print(string.format("OS = %s", nvim_config["os"]))
 	print(string.format("${workspaceFolder} = %s", vim.fn.getcwd()))
-	print(string.format("DEBUGPY = %s", vim.g.debugpy))
+	----------------------------------------------------------------------------
+	-- Debugpy installed info
+	----------------------------------------------------------------------------
+	-- local debugpy_path = os.getenv("HOME") .. "/.local/share/" .. MY_NVIM .. "/mason/packages/debugpy/"
+	local debugpy_path = nvim_config["debugpy_path"]
+	if IsFileExist(debugpy_path) then
+		print("Debugpy is installed in path: " .. debugpy_path)
+	else
+		print("Debugpy isn't installed yet!")
+	end
 
 	-- print(string.format('$VIRTUAL_ENV = %s', os.getenv('VIRTUAL_ENV')))
-	local util = require("utils.python")
-	local venv_python = util.get_python_path_in_venv()
-	print(string.format("$VIRTUAL_ENV = %s", venv_python))
+	-- local util = require("utils.python")
+	-- local venv = util.get_python_path_in_venv()
+	local venv = nvim_config["python"]["venv"]
+	print(string.format("$VIRTUAL_ENV = %s", venv))
+	----------------------------------------------------------------------------
+	-- configurations
+	----------------------------------------------------------------------------
+	print(string.format("install_path = %s", nvim_config["install_path"]))
 	print("====================================================================")
 end
 
--- blah()
+blah()

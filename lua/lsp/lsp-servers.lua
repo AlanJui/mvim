@@ -23,10 +23,13 @@ if not mason_null_ls_status then
 	return
 end
 
+local nvim_config = GetConfig()
+
 -----------------------------------------------------------
 -- (1) Setup mason
 -----------------------------------------------------------
 mason.setup({
+	install_root_dir = nvim_config["runtime"] .. "/mason",
 	ui = {
 		icons = {
 			server_installed = "✓",
@@ -41,7 +44,7 @@ mason.setup({
 -----------------------------------------------------------
 mason_lspconfig.setup({
 	-- list of servers for mason to install
-	ensure_installed = LSP_SERVERS,
+	ensure_installed = nvim_config["lsp_servers"],
 	-- auto-install configured servers (with lspconfig)
 	automatic_installation = true,
 })
@@ -105,11 +108,11 @@ end
 -- Keybindings
 ---
 
-local keymap = vim.keymap -- for conciseness
-
 -- enable keybinds only for when lsp server available
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
+local keymap = vim.keymap -- for conciseness
 local opts = { noremap = true, silent = true }
+
 keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
 keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
@@ -183,68 +186,34 @@ local lsp_flags = { debounce_text_changes = 150 }
 -- Regsister LSP servers setup handlers
 -----------------------------------------------------------------------------------------------
 
-require("mason-lspconfig").setup_handlers({
+mason_lspconfig.setup_handlers({
 	-- The first entry (without a key) will be the default handler
 	-- and will be called for each installed server that doesn't have
 	-- a dedicated handler.
 	function(server_name) -- default handler (optional)
-		require("lspconfig")[server_name].setup({
+		lspconfig[server_name].setup({
 			on_attach = on_attach,
 			flags = lsp_flags,
 		})
 	end,
 	-- Next, you can provide a dedicated handler for specific servers.
-	-- For example, a handler override for the `rust_analyzer`:
 	["sumneko_lua"] = function()
-		local runtime_path = vim.split(package.path, ";")
-		table.insert(runtime_path, "lua/?.lua")
-		table.insert(runtime_path, "lua/?/init.lua")
 		lspconfig.sumneko_lua.setup({
-			on_attach = on_attach,
-			capabilities = capabilities,
-			flags = lsp_flags,
 			settings = {
 				Lua = {
-					runtime = {
-						-- Tell the LangServer which version of Lua you're
-						-- using (most likely LuaJIT in the case of Neovim)
-						version = "LuaJIT",
-						-- Setup your lua path
-						path = runtime_path,
-					},
 					diagnostics = {
-						-- Get the LangServer to recognize the `vim` global
-						-- Now, you don't get error/warning:
-						-- "Undefined global `vim`".
 						globals = { "vim" },
 					},
-					workspace = {
-						-- Make server aware of Neovim runtime files
-						library = vim.api.nvim_get_runtime_file("", true),
-					},
-					-- By default, lua-language-server sends anonymized
-					-- data to its developers. Stop it using the following.
-					telemetry = { enable = false },
 				},
 			},
-		})
-	end,
-	["sumneko_lua"] = function()
-		lspconfig.sumneko_lua.setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			flags = lsp_flags,
-			settings = { -- custom settings for lua
-				Lua = {
-					-- make the language server recognize "vim" global
-					diagnostics = { globals = { "vim", "hs" } },
-					workspace = {
-						-- make language server aware of runtime files
-						library = {
-							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-							[vim.fn.stdpath("config") .. "/lua"] = true,
-						},
-					},
+			commands = {
+				Format = {
+					function()
+						require("stylua-nvim").format_file()
+					end,
 				},
 			},
 		})

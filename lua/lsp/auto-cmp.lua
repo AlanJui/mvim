@@ -81,7 +81,17 @@ cmp.setup({
 				fallback()
 			end
 		end, { "i", "s" }),
+		["<C-g>"] = cmp.mapping(function(fallback)
+			vim.api.nvim_feedkeys(
+				vim.fn["copilot#Accept"](vim.api.nvim_replace_termcodes("<Tab>", true, true, true)),
+				"n",
+				true
+			)
+		end),
 	}),
+	experimental = {
+		ghost_text = false, -- this feature conflict with copilot.vim's preview.
+	},
 	sources = cmp.config.sources({
 		{ name = "path" },
 		{ name = "luasnip", keyword_length = 1 },
@@ -141,13 +151,11 @@ cmp.setup.cmdline(":", {
 ------------------------------------------------------------
 -- Add Snippets
 ------------------------------------------------------------
+local nvim_config = GetConfig()
 
 -- Load your own custom vscode style snippets
 require("luasnip.loaders.from_vscode").lazy_load({
-	paths = {
-		CONFIG_DIR .. "/my-snippets",
-		RUNTIME_DIR .. "/site/pack/packer/start/friendly-snippets",
-	},
+	paths = nvim_config["snippets_path"],
 })
 -- extends filetypes supported by snippets
 luasnip.filetype_extend("vimwik", { "markdown" })

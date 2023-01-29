@@ -8,6 +8,7 @@ if not ok then
 	return
 end
 
+-- vim.cmd([[highlight CopilotSuggestion guifg=#555557 ctermfg=8]])
 -- use this table to disable/enable filetypes
 -- 正向表列：每種程式語語，均需 Copilot 協助；不需使用之程式語言，則一一條列。
 vim.g.copilot_filetypes = {
@@ -47,5 +48,3 @@ vim.g.copilot_filetypes = {
 --                                                 *copilot-i_ALT-[*
 -- <M-[>                   Cycle to the previous suggestion.
 -- <Plug>(copilot-previous)
-
-vim.cmd([[highlight CopilotSuggestion guifg=#555557 ctermfg=8]])
