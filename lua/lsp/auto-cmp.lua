@@ -155,8 +155,9 @@ local nvim_config = GetConfig()
 
 -- Load your own custom vscode style snippets
 require("luasnip.loaders.from_vscode").lazy_load({
-	paths = nvim_config["snippets_path"],
+	paths = nvim_config["snippets"],
 })
+
 -- extends filetypes supported by snippets
 luasnip.filetype_extend("vimwik", { "markdown" })
 luasnip.filetype_extend("html", { "htmldjango", "djangohtml" })

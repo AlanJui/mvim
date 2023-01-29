@@ -152,6 +152,8 @@ local function blah()
 	-- configurations
 	----------------------------------------------------------------------------
 	print(string.format("install_path = %s", nvim_config["install_path"]))
+	print("path of all snippets")
+	PrintTableWithIndent(nvim_config["snippets"], 4)
 	print("====================================================================")
 end
 

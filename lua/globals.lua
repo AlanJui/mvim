@@ -28,7 +28,10 @@ function GetConfig()
 	local compile_path = config_dir .. "/plugin/packer_compiled.lua"
 
 	local debugpy_path = runtime_dir .. "/mason/packages/debugpy/"
-	local snippets_path = { config_dir .. "/my-snippets/snippets" }
+	local snippets_path = {
+		config_dir .. "/my-snippets/snippets",
+		package_root .. "/packer/start/friendly-snippets",
+	}
 
 	local LSP_SERVERS = {
 		"vimls",
@@ -64,10 +67,7 @@ function GetConfig()
 		install_path = install_path,
 		compile_path = compile_path,
 		debugpy_path = debugpy_path,
-		snippets = {
-			snippets_path,
-			package_root .. "/packer/start/friendly-snippets",
-		},
+		snippets = snippets_path,
 		lsp_servers = LSP_SERVERS,
 		python = {
 			root_path = PYENV_ROOT_PATH,
