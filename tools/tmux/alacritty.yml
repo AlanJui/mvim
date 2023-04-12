@@ -2,13 +2,6 @@
 #
 # 視窗配置
 window:
-  # Background opacity
-  #
-  # Window opacity as a floating point number from `0.0` to `1.0`.
-  # The value `0.0` is completely transparent and `1.0` is opaque.
-  # window.opacity: 0.9
-  opacity: 0.6
-
   # Window dimensions (changes require restart)
   #
   # Window decorations
@@ -103,6 +96,12 @@ colors:
     magenta: "0x8e1eff"
     cyan: "0x1eff8e"
     white: "0xc2c2c2"
+
+# Background opacity
+#
+# Window opacity as a floating point number from `0.0` to `1.0`.
+# The value `0.0` is completely transparent and `1.0` is opaque.
+window.opacity: 0.9
 
 selection:
   # This string contains all characters that are used as separators for
@@ -391,10 +390,10 @@ working_directory: "/Users/alanjui/workspace"
 #   args:
 #     - -l
 #     - -c
-#     - "tmux attach-session -t Alacritty"
+#     - "tmux attach || tmux"
 shell:
   program: /bin/zsh
   args:
     - -l
     - -c
-    - "tmux attach || tmux"
+    - "tmux attach-session -t Alacritty"

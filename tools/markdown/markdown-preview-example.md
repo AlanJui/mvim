@@ -1,5 +1,15 @@
 # Project Guideline
 
+## Install procedure
+
+```
+cd ~/.local/share/{nvim|my-nvim}/site/pack/packer/start/
+git clone https://github.com/iamcco/markdown-preview.nvim.git
+cd markdown-preview.nvim
+cd app
+npm install
+```
+
 ## Image with Size
 
 ![image](<https://user-images.githubusercontent.com/5492542/47603494-28e90000-da1f-11e8-9079-30646e551e7a.gif> =400x200)

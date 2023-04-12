@@ -2,6 +2,8 @@
 export MY_NVIM="mvim"
 export MY_CONFIG_DIR="$HOME/.config/$MY_NVIM"
 export MY_RUNTIME_DIR="$HOME/.local/share/$MY_NVIM"
-export DEBUG=false
+# export DEBUG=false
 
-exec nvim -u "$MY_CONFIG_DIR/init.lua" --cmd "luafile $MY_CONFIG_DIR/myRunTimePath.lua" "$@"
+export XDG_CACHE_HOME="$HOME/.cache/$MY_NVIM"
+
+exec nvim -u "$MY_CONFIG_DIR/init.lua" --cmd "luafile $MY_CONFIG_DIR/lua/setup-runtime-env.lua" "$@"

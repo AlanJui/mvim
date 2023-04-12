@@ -3,35 +3,39 @@
   "contributes": {
     "snippets": [
       {
+        "language": "markdown",
+        "path": "./snippets/markdown.json"
+      },
+      {
         "language": "html",
-        "path": "./snippets/my_html.json"
+        "path": "./snippets/html.json"
       },
       {
         "language": "htmldjango",
-        "path": "./snippets/my_htmldjango.json"
+        "path": "./snippets/htmldjango.json"
       },
       {
         "language": "lua",
-        "path": "./snippets/my_lua.json"
+        "path": "./snippets/lua.json"
       },
       {
         "language": "python",
-        "path": "./snippets/my_python.json"
+        "path": "./snippets/python.json"
       },
       {
         "language": "javascript",
-        "path": "./snippets/my_snippets.json"
+        "path": "./snippets/snippets.json"
       },
       {
         "language": "javascriptreact",
-        "path": "./snippets/my_snippets.json"
+        "path": "./snippets/snippets.json"
       },
       {
         "language": "typescript",
-        "path": "./snippets/my_snippets.json"
+        "path": "./snippets/snippets.json"
       },
       {
-        "path": "./snippets/my_snippets.json",
+        "path": "./snippets/snippets.json",
         "language": "typescriptreact"
       }
     ]

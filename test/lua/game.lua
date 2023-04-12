@@ -1,37 +1,30 @@
--- create a game where a player can guess a number
+--------------------------------------------------------------------
+-- create a game where a player can guess a number between 1 and 10
+-- and the computer will tell them if they are right or wrong
+-- and if they are wrong, if the guess was too high or too low
+-- and the player will have 3 guesses
+-- and the player will be able to play again
+-- and the player will be able to quit
+--------------------------------------------------------------------
 
--- create a variable to store the number of guesses
--- the player has made
--- (we'll use this later to limit the number of guesses)
---
+-- get a random number between 1 and 10
 local randomNumber = math.random(1, 10)
-local numberOfGuesses = 3
-local guessNumber
 
--- loop until the player has guessed the correct number
--- or has run out of guesses
-repeat
-	for i = 1, numberOfGuesses, 1 do
-		-- 告知玩家目前為第幾回合
-		print("\n")
-		print("【第" .. i .. "回合】：")
+-- loop until player guesses the number
+while true do
+	-- get a number from player
+	io.write("Guess a number between 1 and 10: ")
+	local getNumber = io.read("*n")
 
-		-- 提示玩家可以輸入猜想之數
-		print("Guess a number between 1 and 10: ")
-		guessNumber = io.read("n")
-
-		-- 檢查玩家輸入之數，是否符合遊戲生成之數
-		if guessNumber > randomNumber then
-			print("The number is lower than " .. guessNumber .. ". Try again.")
-		elseif guessNumber < randomNumber then
-			print("The number is higher than " .. guessNumber .. ". Try again.")
-		else
-			print("You guessed the number!!")
-			break
-		end
-
-		if i == numberOfGuesses then
-			return
-		end
+	-- check if player guessesed the number
+	if randomNumber == getNumber then
+		-- tell player they guessesed the number
+		print("You guessesed the number!")
+		break
+	elseif randomNumber < getNumber then
+		-- tell player number too high
+		print("Your guess is too high!")
+	else
+		print("Your guess is too low!")
 	end
-until guessNumber == randomNumber
+end

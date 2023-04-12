@@ -2,17 +2,8 @@
 -- Initial environments for Neovim
 -- 初始階段
 ------------------------------------------------------------------------------
-DEBUG = false
--- DEBUG = true
-
-------------------------------------------------------------------------------
--- Setup Neovim Run Time Path
--- 設定 RTP ，要求 Neovim 啟動時的設定作業、執行作業，不採預設。
--- 故 my-nvim 的設定檔，可置於目錄： ~/.config/my-nvim/ 運行；
--- 執行作業（Run Time）所需使用之擴充套件（Plugins）與 LSP Servers
--- 可置於目錄： ~/.local/share/my-nvim/
-------------------------------------------------------------------------------
--- Load luafile from command: nvim -u {vimrc} -c "luafile myRunTimePath.lua"
+_G.MY_VIM = os.getenv("MY_NVIM") or "nvim"
+_G.DEBUG = os.getenv("DEBUG") or false
 
 -----------------------------------------------------------
 -- Global Functions
@@ -33,21 +24,22 @@ require("essential")
 -- 使用以下方法，皆不能正確運作：
 --   if vim.fn.exists('g:vscode') then
 --   if vim.fn.exists('g:vscode') == 0 then
+---@diagnostic disable-next-line: undefined-field
 if vim.g.vscode ~= nil then
-	-----------------------------------------------------------
-	-- VSCode extension"
-	-----------------------------------------------------------
-	-- Load plugins
-	require("packer").startup(function(use)
-		use("easymotion/vim-easymotion")
-		use("asvetliakov/vim-easymotion")
-	end)
-	-- Options
-	require("options")
-	-- Key bindings
-	require("keymaps")
+  -----------------------------------------------------------
+  -- VSCode extension"
+  -----------------------------------------------------------
+  -- Load plugins
+  require("packer").startup(function(use)
+    use("easymotion/vim-easymotion")
+    use("asvetliakov/vim-easymotion")
+  end)
+  -- Options
+  require("options")
+  -- Key bindings
+  require("keymaps")
 
-	return
+  return
 end
 
 ------------------------------------------------------------------------------
@@ -64,17 +56,17 @@ end
 -- Setup configuration of plugins
 -- 對已載入之各擴充套件，進行設定作業
 ------------------------------------------------------------------------------
-if DEBUG then
-	-- (1)
-	local debug_plugins = require("debug-plugins")
-	require("config_debug_env").setup(debug_plugins)
-	-- (2)
-	require("plugins-rc")
+if _G.DEBUG then
+  -- (1)
+  local debug_plugins = require("debug-plugins")
+  require("config_debug_env").setup(debug_plugins)
+  -- (2)
+  require("plugins-rc")
 else
-	-- (1)
-	require("plugins")
-	-- (2)
-	require("plugins-rc")
+  -- (1)
+  require("plugins")
+  -- (2)
+  require("plugins-rc")
 end
 
 ------------------------------------------------------------------------------
@@ -103,58 +95,122 @@ require("keymaps")
 
 -----------------------------------------------------------
 -- Experiments
--- 實驗用的臨時設定
+-- 測試中揷件
 -----------------------------------------------------------
+require("utils/markdown")
 
 -----------------------------------------------------------
--- code folding
+-- Get configurations of DAP
+-- 取得 DAP 設定結果
 -----------------------------------------------------------
-vim.cmd([[
-set foldmethod=indent
-set foldnestmax=10
-set nofoldenable
-set foldlevel=5
-]])
--- For folding
--- vim.opt.foldmethod = "expr"
--- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- print("DAP = debugger/adapter/vscode-nodejs-dap")
+-- print(require("debugger/adapter/vscode-nodejs-dap").show_config())
 
--- Say hello
-local function blah()
-	local nvim_config = GetConfig()
-	local MY_NVIM = nvim_config["nvim"]
-	print("Neovim: " .. MY_NVIM)
-	print("init.lua is loaded!")
-	print("====================================================================")
-	print("Neovim RTP(Run Time Path ...)")
-	-- P(vim.api.nvim_list_runtime_paths())
-	-- PrintTable(vim.opt.runtimepath:get())
-	PrintTableWithIndent(vim.opt.runtimepath:get(), 4)
-	print(string.format("OS = %s", nvim_config["os"]))
-	print(string.format("${workspaceFolder} = %s", vim.fn.getcwd()))
-	----------------------------------------------------------------------------
-	-- Debugpy installed info
-	----------------------------------------------------------------------------
-	-- local debugpy_path = os.getenv("HOME") .. "/.local/share/" .. MY_NVIM .. "/mason/packages/debugpy/"
-	local debugpy_path = nvim_config["debugpy_path"]
-	if IsFileExist(debugpy_path) then
-		print("Debugpy is installed in path: " .. debugpy_path)
-	else
-		print("Debugpy isn't installed yet!")
-	end
+----------------------------------------------------------------------------
+-- configurations
+----------------------------------------------------------------------------
+local nvim_config = _G.GetConfig()
 
-	-- print(string.format('$VIRTUAL_ENV = %s', os.getenv('VIRTUAL_ENV')))
-	-- local util = require("utils.python")
-	-- local venv = util.get_python_path_in_venv()
-	local venv = nvim_config["python"]["venv"]
-	print(string.format("$VIRTUAL_ENV = %s", venv))
-	----------------------------------------------------------------------------
-	-- configurations
-	----------------------------------------------------------------------------
-	print(string.format("install_path = %s", nvim_config["install_path"]))
-	print("path of all snippets")
-	PrintTableWithIndent(nvim_config["snippets"], 4)
-	print("====================================================================")
+local function show_current_working_dir()
+  -- Automatic change to working directory you start Neovim
+  local my_working_dir = vim.fn.getcwd()
+  print(string.format("current working dir = %s", my_working_dir))
+  vim.api.nvim_command("cd " .. my_working_dir)
 end
 
-blah()
+---@diagnostic disable-next-line: unused-function, unused-local
+local function nvim_env_info() -- luacheck: ignore
+  ----------------------------------------------------------------------------
+  -- Neovim installed info
+  ----------------------------------------------------------------------------
+  print("init.lua is loaded!")
+  print("Neovim RTP(Run Time Path ...)")
+  ---@diagnostic disable-next-line: undefined-field
+  _G.PrintTableWithIndent(vim.opt.runtimepath:get(), 4) -- luacheck: ignore
+  print("====================================================================")
+  print(string.format("OS = %s", nvim_config["os"]))
+  print(string.format("Working Directory: %s", vim.fn.getcwd()))
+  print("Configurations path: " .. nvim_config["config"])
+  print("Run Time Path: " .. nvim_config["runtime"])
+  print("Cache path:", vim.fn.stdpath("cache"))
+  print(string.format("Plugins management installed path: %s", nvim_config.install_path))
+  print("path of all snippets")
+  _G.PrintTableWithIndent(nvim_config["snippets"], 4)
+  print("--------------------------------------------------------------------")
+end
+
+---@diagnostic disable-next-line: unused-function, unused-local
+local function debugpy_info()
+  ----------------------------------------------------------------------------
+  -- Debugpy installed info
+  ----------------------------------------------------------------------------
+  local venv = nvim_config["python"]["venv"]
+  print(string.format("$VIRTUAL_ENV = %s", venv))
+  local debugpy_path = nvim_config["python"]["debugpy_path"]
+  if _G.IsFileExist(debugpy_path) then
+    print("Debugpy is installed in path: " .. debugpy_path)
+  else
+    print("Debugpy isn't installed in path: " .. debugpy_path .. "yet!")
+  end
+  print("--------------------------------------------------------------------")
+end
+
+---@diagnostic disable-next-line: unused-function, unused-local
+local function nodejs_info() -- luacheck: ignore
+  ----------------------------------------------------------------------------
+  -- vscode-js-debug installed info
+  ----------------------------------------------------------------------------
+  print(string.format("node_path = %s", nvim_config.nodejs.node_path))
+  print(string.format("vim.g.node_host_prog = %s", vim.g.node_host_prog))
+  local js_debugger_path = nvim_config["nodejs"]["debugger_path"]
+  if _G.IsFileExist(js_debugger_path) then
+    print(string.format("nodejs.debugger_path = %s", nvim_config.nodejs.debugger_path))
+  else
+    print("JS Debugger isn't installed! " .. js_debugger_path .. "yet!")
+  end
+  print(string.format("debugger_cmd = %s", ""))
+  _G.PrintTableWithIndent(nvim_config.nodejs.debugger_cmd, 4)
+  print("====================================================================")
+end
+
+------------------------------------------------------------------------------
+-- Test
+------------------------------------------------------------------------------
+
+-- Add local LuaRocks installation directory to package path
+-- package.path = package.path .. ";~/.config/nvim/lua/rocks/?.lua"
+-- package.path = package.path .. ";~/.config/nvim/lua/?.lua"
+-- package.cpath = package.cpath .. ";~/.config/nvim/lua/rocks/?.so"
+-- vim.cmd([[
+-- luafile ~/.config/nvim/lua/my-chatgpt.lua
+-- ]])
+
+function _G.my_test_1()
+  -- Set some options
+  vim.o.tabstop = 4
+  vim.o.shiftwidth = 4
+  vim.o.expandtab = true
+
+  -- Create a new buffer and set its contents
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, { "Hello, world!" })
+
+  -- Open the new buffer in a split window
+  vim.api.nvim_command("split")
+  vim.api.nvim_buf_set_name(buf, "hello.txt")
+end
+
+function _G.run_shell_command()
+  local command = "ls -l"
+  local output = vim.fn.system(command)
+  print(output)
+end
+-----------------------------------------------------------
+-- Debug Tools
+-- 除錯工具
+-----------------------------------------------------------
+
+nvim_env_info()
+-- show_current_working_dir()
+-- debugpy_info()
+-- nodejs_info()

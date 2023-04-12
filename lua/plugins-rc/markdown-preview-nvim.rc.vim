@@ -1,6 +1,14 @@
+lua << EOF
+local ok, _ = pcall(require, 'markdown-preview.nvim')
+if not ok then
+  -- not loaded
+  return
+end
+EOF
+
 " set to 1, nvim will open the preview window after entering the markdown buffer
 " default: 0
-let g:mkdp_auto_start = 1
+let g:mkdp_auto_start = 0
 
 " set to 1, the nvim will auto close current preview window when change
 " from markdown buffer to another buffer
