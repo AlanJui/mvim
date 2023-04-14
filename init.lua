@@ -210,7 +210,7 @@ end
 -- 除錯工具
 -----------------------------------------------------------
 
-nvim_env_info()
+-- nvim_env_info()
 -- show_current_working_dir()
 -- debugpy_info()
 -- nodejs_info()
