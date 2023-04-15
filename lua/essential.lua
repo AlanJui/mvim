@@ -43,7 +43,7 @@ vim.opt.mouse = "a"
 vim.guifont = "DroidSansMono Nerd Font 18"
 
 -- Display line number on side bar
-vim.opt.number = true -- show line numbers
+vim.opt.number = true         -- show line numbers
 vim.opt.relativenumber = true -- show relative line number
 vim.opt.numberwidth = 4
 -- vim.wo.number = true
@@ -61,10 +61,10 @@ vim.opt.numberwidth = 4
 --
 -- vim.opt.softtabstop = 0
 vim.opt.softtabstop = 2
-vim.opt.tabstop = 2 -- spaces per tab
-vim.opt.shiftwidth = 2 -- spaces per tab (when shifting), when using the >> or << commands, shift lines by 4 spaces
+vim.opt.tabstop = 2       -- spaces per tab
+vim.opt.shiftwidth = 2    -- spaces per tab (when shifting), when using the >> or << commands, shift lines by 4 spaces
 vim.opt.expandtab = false -- don't expand tabs into spaces
-vim.opt.smarttab = true -- <tab>/<BS> indent/dedent in leading whitespace
+vim.opt.smarttab = true   -- <tab>/<BS> indent/dedent in leading whitespace
 vim.opt.autoindent = true -- maintain indent of current line
 vim.opt.smartindent = true
 
