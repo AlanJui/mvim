@@ -1,56 +1,72 @@
-local dap_python = safe_require("dap-python")
-if not dap_python then
-	return
-end
+-- local dap_python = safe_require("dap-python")
+-- if not dap_python then
+--   return
+-- end
 
 local M = {}
 
-local debugpy_path = os.getenv("HOME") .. "/.virtualenvs/debugpy/bin/python"
-local workspace_folder = vim.fn.getcwd()
-local pyenv_virtual_env = os.getenv("VIRTUAL_ENV")
-local pyenv_python_path = pyenv_virtual_env .. "/bin/python"
+function M.setup()
+  local dap = require("dap")
 
-local get_venv_python_path = function()
-	-- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
-	-- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
-	-- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
-	if vim.fn.executable(pyenv_python_path) then
-		return pyenv_python_path
-	elseif vim.fn.executable(workspace_folder .. "/venv/bin/python") == 1 then
-		return workspace_folder .. "/venv/bin/python"
-	elseif vim.fn.executable(workspace_folder .. "/.venv/bin/python") == 1 then
-		return workspace_folder .. "/.venv/bin/python"
-	else
-		return "/usr/bin/python"
-	end
-end
+  local function get_venv_python_path()
+    local workspace_folder = vim.fn.getcwd()
 
-M.setup = function(dap)
-	-- configure DAP Adapter
-	dap_python.setup(debugpy_path)
+    if vim.fn.executable(workspace_folder .. "/.venv/bin/python") then
+      return workspace_folder .. "/.venv/bin/python"
+    elseif vim.fn.executable(workspace_folder .. "/venv/bin/python") then
+      return workspace_folder .. "/venv/bin/python"
+    elseif vim.fn.executable(os.getenv("VIRTUAL_ENV") .. "/bin/python") then
+      return os.getenv("VIRTUAL_ENV" .. "/bin/python")
+    else
+      return "/usr/bin/python"
+    end
+  end
 
-	-- configure configurations of dap Adapter
-	table.insert(dap.configurations.python, {
-		type = "python", -- the type here established the link to the adapter definition: `dap.adapters.python`
-		request = "launch",
-		name = "Launch Python file",
-		program = "${file}", -- This configuration will launch the current file if used.
-		pythonPath = get_venv_python_path(),
-	})
-	table.insert(dap.configurations.python, {
-		type = "python",
-		request = "launch",
-		name = "Launch Django",
-		-- cwd = '${workspaceFolder}',
-		program = "${workspaceFolder}/manage.py",
-		args = {
-			"runserver",
-			"--noreload",
-		},
-		console = "integratedTerminal",
-		justMyCode = true,
-		pythonPath = get_venv_python_path(),
-	})
+  local venv_python_path = get_venv_python_path()
+  local debugpy_python_path = vim.fn.stdpath("data") .. "/mason/bin/debugpy"
+
+  dap.adapters.python = {
+    type = "executable",
+    command = debugpy_python_path,
+    args = { "-m", "debugpy.adapter" },
+  }
+
+  dap.configurations.python = {
+    {
+      type = "python",
+      request = "launch",
+      name = "Launch file",
+      program = "${file}",
+      pythonPath = venv_python_path,
+    },
+    {
+      type = "python",
+      request = "launch",
+      name = "Launch Django Server",
+      cwd = "${workspaceFolder}",
+      program = "${workspaceFolder}/manage.py",
+      args = {
+        "runserver",
+        "--noreload",
+      },
+      console = "integratedTerminal",
+      justMyCode = true,
+      pythonPath = venv_python_path,
+    },
+    {
+      type = "python",
+      request = "launch",
+      name = "Python: Django Debug Single Test",
+      program = "${workspaceFolder}/manage.py",
+      args = {
+        "test",
+        "${relativeFileDirname}",
+      },
+      django = true,
+      console = "integratedTerminal",
+      pythonPath = venv_python_path,
+    },
+  }
 end
 
 return M
