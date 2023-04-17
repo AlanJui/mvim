@@ -55,14 +55,6 @@ local symbol_map = {
 lspkind.init(symbol_map)
 vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
 
-------------------------------------------------------------
--- Likewise, nvim-cmp may be configured as follows for nicer
--- display when g:nightflyNormalFloat is enabled:
-------------------------------------------------------------
-local winhighlight = {
-  winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel",
-}
-
 local lsp_autocmp_format = {
   -- changing the order of fields so the icon is the first
   fields = { "abbr", "kind", "menu" },
@@ -132,17 +124,11 @@ end
 ------------------------------------------------------------
 cmp.setup({
   snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
+    expand = function(args) luasnip.lsp_expand(args.body) end,
   },
-  -- window = {
-  --     completion = cmp.config.window.bordered(),
-  --     documentation = cmp.config.window.bordered(),
-  -- },
   window = {
-    completion = cmp.config.window.bordered(winhighlight),
-    documentation = cmp.config.window.bordered(winhighlight),
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
   },
   mapping = cmp.mapping.preset.insert({
     ["<C-y>"] = cmp.mapping.complete(),

@@ -13,6 +13,13 @@ require("plugins-rc.nightfly-colors")
 -- lsp
 require("lsp")
 
+-- debug & unit testing
+require("debugger")
+require("unit-test")
+
+-- AI tools
+require("plugins-rc/ChatGPT-rc")
+
 -- status line
 require("plugins-rc/lualine-material")
 require("plugins-rc/tabline")
@@ -26,7 +33,7 @@ require("plugins-rc/indent-blankline")
 require("plugins-rc/telescope-nvim")
 -- require("my-telescope")
 require("plugins-rc/nvim-tree")
--- require("plugins-rc/harpoon")
+require("plugins-rc/harpoon")
 
 -- editting tools
 require("plugins-rc/comment-nvim")
@@ -55,10 +62,3 @@ vim.cmd([[runtime ./lua/plugins-rc/markdown-preview-nvim.rc.vim]])
 vim.cmd([[runtime ./lua/plugins-rc/plantuml-previewer.rc.vim]])
 vim.cmd([[runtime ./lua/plugins-rc/vimtex.rc.vim]])
 vim.cmd([[runtime ./lua/plugins-rc/bracey.rc.vim]])
-
--- debug & unit testing
-require("debugger")
--- require("unit-test")
-
--- AI tools
--- require("plugins-rc/ChatGPT-rc")
